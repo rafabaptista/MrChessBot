@@ -1,0 +1,6 @@
+command_tournament = ".torneio"
+command_crossTable = ".confronto"
+command_puzzle = "-puzzle"
+command_puzzle_answer = "-a"
+command_pgn = ".pgn"
+command_profile = ".perfil"
