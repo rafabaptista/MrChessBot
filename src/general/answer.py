@@ -40,7 +40,7 @@ def export_confronts_result(player_one, player_two, json_response, json_users):
         + player_one 
         + f"** {text_and} **" 
         + player_two 
-        + f"** {text_already_played} " 
+        + f"** {text_already_played_plural} " 
         + number_of_matches_played(number_matches) 
         + "\n\n" 
         + f"*{text_result}:*\n" 

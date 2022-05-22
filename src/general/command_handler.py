@@ -15,11 +15,11 @@ from config.commands import *
 
 def execute_command(message):
     message_to_send = ""
-    if command_pgn in message.lower():
+    if command_pgn_fix in message.lower() or command_pgn in message.lower():
         message_to_send = execute_command_pgn(message)
-    elif command_crossTable in message:
+    elif command_cross_table_fix in message.lower() or command_cross_table in message.lower():
         message_to_send = execute_command_crosstable(message)
-    elif command_profile in message:
+    elif command_profile_fix in message.lower() or command_profile in message.lower():
         message_to_send = execute_command_profile(message)
     elif liches_search_url in message:
         message_to_send = execute_command_gif(message)
@@ -32,11 +32,11 @@ def execute_command(message):
     return(message_to_send)
 
 def execute_command_pgn(message):
-    text_message = remove_empty_spaces(remove_bot_mention(message).replace(command_pgn, ""))
+    text_message = remove_empty_spaces(remove_bot_mention(message).replace(command_pgn_fix, "").replace(command_pgn, ""))
     return(get_game_pgn(text_message))
 
 def execute_command_crosstable(message):
-    text_message = remove_empty_spaces(remove_bot_mention(message).replace(command_crossTable, "")).lower()
+    text_message = remove_empty_spaces(remove_bot_mention(message).replace(command_cross_table_fix, "").replace(command_cross_table, "")).lower()
     length = len(text_message)
     index_comma = text_message.find(",")
     player_one = text_message[0:index_comma]
@@ -63,6 +63,6 @@ def standard_bot_mention_reply():
     return(text_bot_mentioned_reply)
 
 def execute_command_profile(message):
-    user = remove_empty_spaces(remove_bot_mention(message).replace(command_profile, ""))
+    user = remove_empty_spaces(remove_bot_mention(message).replace(command_profile_fix, "").replace(command_profile, ""))
     print(user)
     return(get_user_status(user))
