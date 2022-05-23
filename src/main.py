@@ -1,5 +1,5 @@
 import discord
-#from general.keep_alive import keep_alive
+from general.keep_alive import keep_alive
 from general.command_handler import execute_command
 from config.environment_keys import *
 from util.constants import *
@@ -30,5 +30,5 @@ async def on_message(message):
       with open(large_file_name, "rb") as file:
         await message.channel.send(text_large_result, file=discord.File(file, large_file_name))
 
-#keep_alive()
+keep_alive()
 client.run(token)
