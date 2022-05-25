@@ -8,3 +8,5 @@ command_pgn = ".pgn"
 command_pgn_fix = ". pgn"
 command_profile = ".perfil"
 command_profile_fix = ". perfil"
+
+command_tournament_cafe = ".cafe"

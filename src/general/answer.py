@@ -1,8 +1,12 @@
 import requests
-from api.lichess.lichess import get_confronts_between_two_players, export_game_gif, get_user_status_response, export_game_pgn, get_game_id
+from api.lichess.lichess import get_confronts_between_two_players, export_game_gif, get_user_status_response, export_game_pgn, get_game_id, create_swiss_tournament
 from util.constants import *
 from api.lichess.http import *
 from config.strings import *
+from config.environment_keys import bot_team_id
+from datetime import datetime
+import pytz
+
 
 def get_game_pgn(text_message):
     game_id = get_game_id(text_message)
@@ -115,3 +119,25 @@ def export_user_status(user_name, response):
         + "\n\n"
         + f"{text_profile_lichess}: {url_user}"
     )
+
+def create_tournament_cafe():
+    title = "Torneio de teste - 16h"
+    clock_limit = 180
+    increment = 2
+    rounds = 7
+    #starts_at = 1653470100000
+    interval_rounds = 5
+    team_id = bot_team_id
+
+    local_dt = datetime.now()
+    new_date = datetime(local_dt.year, local_dt.month, local_dt.day, 16, 0, 0, 0)
+    starts_at = new_date.strftime('%s')
+
+    response = create_swiss_tournament(title, clock_limit, increment, rounds, starts_at, interval_rounds, team_id)
+    if response != None:
+        if (response["status"] == "created"):
+            tournament_id = response["id"]
+            return(f"O torneio foi criado com Sucesso!\n\nO link para acessá-lo é: {swiss_tournament_link}{tournament_id}")
+        else:
+            return("Não consegui criar o Torneio. Favor tentar novamente mais tarde =/")
+        

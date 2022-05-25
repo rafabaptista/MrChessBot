@@ -1,3 +1,4 @@
+import json
 import requests
 from util.constants import *
 from api.lichess.http import *
@@ -74,6 +75,38 @@ def get_user_status_response(user_name):
         print(json_response)
         print(json_response["perfs"])
         return(json_response)
+    except requests.exceptions.HTTPError as errh:
+        print(errh)
+    except requests.exceptions.ConnectionError as errc:
+        print(errc)
+    except requests.exceptions.Timeout as errt:
+        print(errt)
+    except requests.exceptions.RequestException as err:
+        print(err)
+    return(None)
+
+def create_swiss_tournament(title, clock_limit, increment, rounds, starts_at, interval_rounds, team):
+    request_url = f"{http_post_new_swiss_tournament}{team}"
+    body = {
+        'name': title, 
+        'clock.limit': clock_limit,
+        'clock.increment': increment,
+        'nbRounds': rounds,
+        'startsAt': starts_at,
+        'roundInterval': interval_rounds
+    }
+    headers = json_header_post_with_authorization_bot
+    try:
+        print("Url: " + request_url)
+        response = requests.post(request_url, headers=headers, data=body, timeout=5)
+        response.raise_for_status()
+        print("Response Status Code: " + str(response.status_code))
+        json_response = response.json()
+        print(json_response)
+        if response.status_code == 200:
+            return(json_response)
+        else:
+            return(None)
     except requests.exceptions.HTTPError as errh:
         print(errh)
     except requests.exceptions.ConnectionError as errc:
