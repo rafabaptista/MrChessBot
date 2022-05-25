@@ -131,8 +131,8 @@ def create_tournament_cafe():
 
     local_dt = datetime.now()
     new_date = datetime(local_dt.year, local_dt.month, local_dt.day, 16, 0, 0, 0)
-    starts_at = new_date.strftime('%s')
-
+    time_converted = new_date.strftime('%s')
+    starts_at = int(float(time_converted)*1000)
     response = create_swiss_tournament(title, clock_limit, increment, rounds, starts_at, interval_rounds, team_id)
     if response != None:
         if (response["status"] == "created"):
