@@ -2,10 +2,12 @@ from config.environment_keys import *
 from util.constants import *
 from util.string_helper import is_from_lichess_domain
 from general.answer import get_game_pgn
-from general.answer import get_game_id
+from general.answer import create_swis_tournament_with_params
 from general.answer import get_confronts
 from general.answer import get_game_gif
-from general.answer import get_user_status, create_tournament_cafe
+from general.answer import get_user_status
+from general.cxgr.cxgr_tournaments import create_tournament_cafe
+from general.cxgr.cxgr_tournaments import create_tournament_list_p1
 from util.string_helper import remove_bot_mention
 from util.string_helper import remove_empty_spaces
 from config.strings import text_puzzle_command
@@ -21,8 +23,12 @@ def execute_command(message):
         message_to_send = execute_command_crosstable(message)
     elif command_profile_fix in message.lower() or command_profile in message.lower():
         message_to_send = execute_command_profile(message)
+    elif command_tournament_list_p1 in message.lower():
+        message_to_send = create_tournament_list_p1()
     elif command_tournament_cafe in message.lower():
         message_to_send = execute_command_tournament_cafe()
+    elif command_swiss_tournament in message:
+        message_to_send = execute_command_swiss(message)
     elif liches_search_url in message:
         message_to_send = execute_command_gif(message)
     elif command_puzzle in message:
@@ -71,3 +77,7 @@ def execute_command_profile(message):
 
 def execute_command_tournament_cafe():
     return(create_tournament_cafe())
+
+def execute_command_swiss(message):
+    tournament_params = remove_empty_spaces(remove_bot_mention(message).replace(command_swiss_tournament, ""))
+    return(create_swis_tournament_with_params(tournament_params))

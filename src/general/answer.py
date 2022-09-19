@@ -120,24 +120,24 @@ def export_user_status(user_name, response):
         + f"{text_profile_lichess}: {url_user}"
     )
 
-def create_tournament_cafe():
-    title = "Torneio de teste - 16h"
-    clock_limit = 180
-    increment = 2
-    rounds = 7
-    #starts_at = 1653470100000
-    interval_rounds = 5
-    team_id = bot_team_id
-
-    local_dt = datetime.now()
-    new_date = datetime(local_dt.year, local_dt.month, local_dt.day, 16, 0, 0, 0)
-    time_converted = new_date.strftime('%s')
-    starts_at = int(float(time_converted)*1000)
-    response = create_swiss_tournament(title, clock_limit, increment, rounds, starts_at, interval_rounds, team_id)
-    if response != None:
-        if (response["status"] == "created"):
-            tournament_id = response["id"]
-            return(f"O torneio foi criado com Sucesso!\n\nO link para acessá-lo é: {swiss_tournament_link}{tournament_id}")
-        else:
-            return("Não consegui criar o Torneio. Favor tentar novamente mais tarde =/")
+def create_swis_tournament_with_params(tournament_params):
+    params = tournament_params.split(',')
+    size_list_params = len(params)
+    if size_list_params == 7:
+        title = params[0]
+        clock_limit = params[1]
+        increment = params[2]
+        rounds = params[3]
+        starts_at = params[4]
+        interval_rounds = params[5]
+        team_id = params[6]
+        response = create_swiss_tournament(title, clock_limit, increment, rounds, starts_at, interval_rounds, team_id)
+        if response != None:
+            if (response["status"] == "created"):
+                tournament_id = response["id"]
+                return(f"O torneio foi criado com Sucesso!\n\nO link para acessá-lo é: {swiss_tournament_link}{tournament_id}")
+            else:
+                return("Não consegui criar o Torneio. Favor tentar novamente mais tarde =/")
+    else:
+        return("Algo não está certo.\nCertifique-se de que está mandando o comando exatamente assim:\n\n.swiss _Nome do Torneio_, _Tempo do Relógio (em segundos)_, _Tempo de incremento por lance (em segundos)_, _Número de rodadas_, _Horário de início do Torneio (timestamp com milisegundos)_, _Tempo de intervalo entre rodadas (em segundos)_, _Código da Equipe (está no final da URL da página da Equipe no Lichess)_\n\nPara gerar o Timestamp do horário do torneio, pode entrar nesse site: https://www.epochconverter.com/")
         

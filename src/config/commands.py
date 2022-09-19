@@ -10,3 +10,5 @@ command_profile = ".perfil"
 command_profile_fix = ". perfil"
 
 command_tournament_cafe = ".cafe"
+command_swiss_tournament = ".swiss"
+command_tournament_list_p1 = ".torneio-p1"
