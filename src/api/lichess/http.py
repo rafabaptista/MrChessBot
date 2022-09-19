@@ -6,7 +6,7 @@ http_get_game_pgn = f"{liches_base_url}/game/export/"
 http_export_game_gif = f"{liches_base_url}/game/export/gif/"
 http_crosstable = f"{liches_base_url}/api/crosstable/"
 http_get_user = f"{liches_base_url}/api/user/"
-http_post_team = f"{liches_base_url}/api/team/{bot_team_id}/pm-all"
+http_post_team = f"{liches_base_url}/team/{bot_team_id}/pm-all"
 http_post_new_swiss_tournament = f"{liches_base_url}/api/swiss/new/"
 
 chess_pgn_header = {

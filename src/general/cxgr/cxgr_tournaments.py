@@ -1,4 +1,5 @@
 from api.lichess.lichess import create_swiss_tournament
+from api.lichess.lichess import create_custom_swiss_tournament
 from api.lichess.lichess import send_message_to_team
 from config.environment_keys import bot_team_id
 from util.constants import swiss_tournament_link
@@ -16,7 +17,7 @@ def create_tournament_cafe():
     new_date = datetime(local_dt.year, local_dt.month, local_dt.day, 10, 15, 0, 0) #Brazil's zone [Sao Paulo]
     time_converted = new_date.strftime('%s')
     starts_at = int(float(time_converted)*1000)
-    response = create_swiss_tournament(title, clock_limit, increment, rounds, starts_at, interval_rounds, team_id)
+    response = create_custom_swiss_tournament(title, clock_limit, increment, rounds, starts_at, interval_rounds, team_id)
     if response != None:
         if (response["status"] == "created"):
             tournament_id = response["id"]
@@ -43,6 +44,8 @@ def create_tournament_cafe_da_manha():
             return(f"*{title} 3+2 {rounds} RD 11:00*:\n{swiss_tournament_link}{tournament_id}")
         else:
             return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
+    else:
+        return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
 
 def create_tournament_continental():
     title = "Continental"
@@ -62,6 +65,8 @@ def create_tournament_continental():
             return(f"*{title} 3+2 {rounds} RD 13:00*:\n{swiss_tournament_link}{tournament_id}")
         else:
             return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
+    else:
+        return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
 
 def create_tournament_iron_man():
     title = "Iron Man"
@@ -81,6 +86,8 @@ def create_tournament_iron_man():
             return(f"*{title} 10+0 {rounds} RD 13:00*:\n{swiss_tournament_link}{tournament_id}")
         else:
             return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
+    else:
+        return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
 
 def create_tournament_por_do_sol():
     title = "Por do Sol"
@@ -100,6 +107,8 @@ def create_tournament_por_do_sol():
             return(f"*{title} 7+2 {rounds} RD 18:00*:\n{swiss_tournament_link}{tournament_id}")
         else:
             return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
+    else:
+        return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
 
 def create_tournament_aladdyn():
     title = "Aladdyn"
@@ -119,6 +128,8 @@ def create_tournament_aladdyn():
             return(f"*{title} 3+2 {rounds} RD 21:00*:\n{swiss_tournament_link}{tournament_id}")
         else:
             return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
+    else:
+        return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
 
 def create_tournament_lua_cheia():
     title = "Lua Cheia"
@@ -138,6 +149,8 @@ def create_tournament_lua_cheia():
             return(f"*{title} 7+2 {rounds} RD 22:05*:\n{swiss_tournament_link}{tournament_id}")
         else:
             return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
+    else:
+        return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
 
 def create_tournament_carlsen_lobisomen():
     title = "Carlsen Lobisomen"
@@ -157,6 +170,8 @@ def create_tournament_carlsen_lobisomen():
             return(f"*{title} 3+2 {rounds} RD 00:05*:\n{swiss_tournament_link}{tournament_id}")
         else:
             return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
+    else:
+        return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
 
 def create_tournament_list_p1():
     message_to_send = "Bom dia, CXGR. Os torneios de hoje são:\n\n"
@@ -170,8 +185,10 @@ def create_tournament_list_p1():
     message_to_send += "Obrigado e até a próxima!   o/"
     response = send_message_to_team(message_to_send)
     if response != None:
-        if (response["status"] == "created"):
+        if (response["ok"] == True):
             return(message_to_send)
         else:
             return(f"Ocorreu um erro.\n\n{response}")
+    else:
+        return(f"Ocorreu um erro. Desculpe.")
     

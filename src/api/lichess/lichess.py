@@ -117,7 +117,7 @@ def create_swiss_tournament(title, clock_limit, increment, rounds, starts_at, in
         print(err)
     return(None)
 
-def create_swiss_tournament(title, description, clock_limit, increment, rounds, starts_at, interval_rounds, team):
+def create_custom_swiss_tournament(title, description, clock_limit, increment, rounds, starts_at, interval_rounds, team):
     request_url = f"{http_post_new_swiss_tournament}{team}"
     body = {
         'name': title, 
