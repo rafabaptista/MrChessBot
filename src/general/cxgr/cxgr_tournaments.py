@@ -139,7 +139,7 @@ def create_tournament_lua_cheia():
     interval_rounds = 5
     team_id = bot_team_id
     local_dt = datetime.now()
-    new_date = datetime(local_dt.year, local_dt.month, local_dt.day, 21, 5, 0, 0) #Brazil's zone [Sao Paulo]
+    new_date = datetime(local_dt.year, local_dt.month, local_dt.day, 22, 5, 0, 0) #Brazil's zone [Sao Paulo]
     time_converted = new_date.strftime('%s')
     starts_at = int(float(time_converted)*1000)
     response = create_swiss_tournament(title, clock_limit, increment, rounds, starts_at, interval_rounds, team_id)
