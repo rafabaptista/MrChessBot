@@ -41,7 +41,7 @@ def create_tournament_cafe_da_manha():
     if response != None:
         if (response["status"] == "created"):
             tournament_id = response["id"]
-            return(f"*{title} 3+2 {rounds} RD 11:00*:\n{swiss_tournament_link}{tournament_id}")
+            return(f"* ♟️ {title} (3+2) - {rounds} RD - 11:00 *:\n{swiss_tournament_link}{tournament_id}")
         else:
             return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
     else:
@@ -62,7 +62,7 @@ def create_tournament_continental():
     if response != None:
         if (response["status"] == "created"):
             tournament_id = response["id"]
-            return(f"*{title} 3+2 {rounds} RD 13:00*:\n{swiss_tournament_link}{tournament_id}")
+            return(f"* ♟️ {title} (3+2) - {rounds} RD - 13:00 *:\n{swiss_tournament_link}{tournament_id}")
         else:
             return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
     else:
@@ -83,7 +83,7 @@ def create_tournament_iron_man():
     if response != None:
         if (response["status"] == "created"):
             tournament_id = response["id"]
-            return(f"*{title} 10+0 {rounds} RD 13:00*:\n{swiss_tournament_link}{tournament_id}")
+            return(f"* ♟️ {title} (10+0) - {rounds} RD - 13:00 *:\n{swiss_tournament_link}{tournament_id}")
         else:
             return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
     else:
@@ -104,7 +104,7 @@ def create_tournament_por_do_sol():
     if response != None:
         if (response["status"] == "created"):
             tournament_id = response["id"]
-            return(f"*{title} 7+2 {rounds} RD 18:00*:\n{swiss_tournament_link}{tournament_id}")
+            return(f"* ♟️ {title} (7+2) - {rounds} RD - 18:00 *:\n{swiss_tournament_link}{tournament_id}")
         else:
             return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
     else:
@@ -125,7 +125,7 @@ def create_tournament_aladdyn():
     if response != None:
         if (response["status"] == "created"):
             tournament_id = response["id"]
-            return(f"*{title} 3+2 {rounds} RD 21:00*:\n{swiss_tournament_link}{tournament_id}")
+            return(f"* ♟️ {title} (3+2) - {rounds} RD - 21:00 *:\n{swiss_tournament_link}{tournament_id}")
         else:
             return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
     else:
@@ -133,7 +133,7 @@ def create_tournament_aladdyn():
 
 def create_tournament_lua_cheia():
     title = "Lua Cheia"
-    clock_limit = 480
+    clock_limit = 420
     increment = 2
     rounds = 7
     interval_rounds = 5
@@ -146,7 +146,7 @@ def create_tournament_lua_cheia():
     if response != None:
         if (response["status"] == "created"):
             tournament_id = response["id"]
-            return(f"*{title} 7+2 {rounds} RD 22:05*:\n{swiss_tournament_link}{tournament_id}")
+            return(f"* ♟️ {title} 🌚 (7+2) - {rounds} RD - 22:05 *:\n{swiss_tournament_link}{tournament_id}")
         else:
             return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
     else:
@@ -160,21 +160,65 @@ def create_tournament_carlsen_lobisomen():
     interval_rounds = 5
     team_id = bot_team_id
     local_dt = datetime.now()
-    new_date = datetime(local_dt.year, local_dt.month, local_dt.day + 1, 00, 5, 0, 0) #Brazil's zone [Sao Paulo]
+    new_date = datetime(local_dt.year, local_dt.month, local_dt.day + 1, 0, 5, 0, 0) #Brazil's zone [Sao Paulo]
     time_converted = new_date.strftime('%s')
     starts_at = int(float(time_converted)*1000)
     response = create_swiss_tournament(title, clock_limit, increment, rounds, starts_at, interval_rounds, team_id)
     if response != None:
         if (response["status"] == "created"):
             tournament_id = response["id"]
-            return(f"*{title} 3+2 {rounds} RD 00:05*:\n{swiss_tournament_link}{tournament_id}")
+            return(f"* ♟️ {title} (3+2) - {rounds} RD - 00:05 *:\n{swiss_tournament_link}{tournament_id}")
+        else:
+            return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
+    else:
+        return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
+
+def create_tournament_40_graus():
+    title = "40º Graus"
+    clock_limit = 420
+    increment = 2
+    rounds = 7
+    interval_rounds = 5
+    team_id = bot_team_id
+    local_dt = datetime.now()
+    new_date = datetime(local_dt.year, local_dt.month, local_dt.day, 13, 5, 0, 0) #Brazil's zone [Sao Paulo]
+    time_converted = new_date.strftime('%s')
+    starts_at = int(float(time_converted)*1000)
+    response = create_swiss_tournament(title, clock_limit, increment, rounds, starts_at, interval_rounds, team_id)
+    if response != None:
+        if (response["status"] == "created"):
+            tournament_id = response["id"]
+            return(f"* ♟️ {title} (7+2) - {rounds} RD - 13:05 *:\n{swiss_tournament_link}{tournament_id}")
+        else:
+            return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
+    else:
+        return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
+
+def create_tournament_Flash():
+    title = "Flash"
+    clock_limit = 300
+    increment = 3
+    rounds = 5
+    interval_rounds = 5
+    team_id = bot_team_id
+    local_dt = datetime.now()
+    new_date = datetime(local_dt.year, local_dt.month, local_dt.day, 15, 0, 0, 0) #Brazil's zone [Sao Paulo]
+    time_converted = new_date.strftime('%s')
+    starts_at = int(float(time_converted)*1000)
+    response = create_swiss_tournament(title, clock_limit, increment, rounds, starts_at, interval_rounds, team_id)
+    if response != None:
+        if (response["status"] == "created"):
+            tournament_id = response["id"]
+            return(f"* ♟️ {title} (5+3) - {rounds} RD - 15:00 *:\n{swiss_tournament_link}{tournament_id}")
         else:
             return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
     else:
         return(f"Não foi possível criar o torneio {title} hoje. Desculpe =/")
 
 def create_tournament_list_p1():
-    message_to_send = "Bom dia, CXGR. Os torneios de hoje são:\n\n"
+    local_dt = datetime.now()
+    formatted_date = f"{local_dt.day}/{local_dt.month}/{local_dt.year}"
+    message_to_send = f"Bom dia, CXGR. Os torneios de hoje ({formatted_date}) são:\n\n"
     message_to_send += f"{create_tournament_cafe_da_manha()}\n\n"
     message_to_send += f"{create_tournament_continental()}\n\n"
     message_to_send += f"{create_tournament_iron_man()}\n\n"
@@ -182,7 +226,28 @@ def create_tournament_list_p1():
     message_to_send += f"{create_tournament_aladdyn()}\n\n"
     message_to_send += f"{create_tournament_lua_cheia()}\n\n"
     message_to_send += f"{create_tournament_carlsen_lobisomen()}\n\n"
-    message_to_send += "Obrigado e até a próxima!   o/"
+    message_to_send += "Obrigado e até a próxima!   o/ \n\n🏁🏁🏁🐎🐎🐎🏁🏁🏁"
+    response = send_message_to_team(message_to_send)
+    if response != None:
+        if (response["ok"] == True):
+            return(message_to_send)
+        else:
+            return(f"Ocorreu um erro.\n\n{response}")
+    else:
+        return(f"Ocorreu um erro. Desculpe.")
+
+def create_tournament_list_p2():
+    local_dt = datetime.now()
+    formatted_date = f"{local_dt.day}/{local_dt.month}/{local_dt.year}"
+    message_to_send = f"Bom dia, CXGR. Os torneios de hoje ({formatted_date}) são:\n\n"
+    message_to_send += f"{create_tournament_cafe_da_manha()}\n\n"
+    message_to_send += f"{create_tournament_40_graus()}\n\n"
+    message_to_send += f"{create_tournament_Flash()}\n\n"
+    message_to_send += f"{create_tournament_por_do_sol()}\n\n"
+    message_to_send += f"{create_tournament_aladdyn()}\n\n"
+    message_to_send += f"{create_tournament_lua_cheia()}\n\n"
+    message_to_send += f"{create_tournament_carlsen_lobisomen()}\n\n"
+    message_to_send += "Obrigado e até a próxima!   o/ \n\n🏁🏁🏁🐎🐎🐎🏁🏁🏁"
     response = send_message_to_team(message_to_send)
     if response != None:
         if (response["ok"] == True):

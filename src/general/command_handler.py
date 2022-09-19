@@ -8,6 +8,7 @@ from general.answer import get_game_gif
 from general.answer import get_user_status
 from general.cxgr.cxgr_tournaments import create_tournament_cafe
 from general.cxgr.cxgr_tournaments import create_tournament_list_p1
+from general.cxgr.cxgr_tournaments import create_tournament_list_p2
 from util.string_helper import remove_bot_mention
 from util.string_helper import remove_empty_spaces
 from config.strings import text_puzzle_command
@@ -25,6 +26,8 @@ def execute_command(message):
         message_to_send = execute_command_profile(message)
     elif command_tournament_list_p1 in message.lower():
         message_to_send = create_tournament_list_p1()
+    elif command_tournament_list_p2 in message.lower():
+        message_to_send = create_tournament_list_p2()
     elif command_tournament_cafe in message.lower():
         message_to_send = execute_command_tournament_cafe()
     elif command_swiss_tournament in message:
