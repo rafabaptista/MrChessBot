@@ -99,7 +99,7 @@ def create_tournament_list_p2():
         if (response["ok"] == True):
             return(message_to_send)
         else:
-            return(f"Ocorreu um erro.\n\n{response}")
+            return(f"Ocorreu um erro ao enviar mensagem para os membros do Grupo no Lichess. Contudo, os torneios foram criados.\n\nA mensagem a ser enviada é esta:\n\n{message_to_send}")
     else:
-        return(f"Ocorreu um erro. Desculpe.")
+        return(f"Ocorreu um erro ao enviar mensagem para os membros do Grupo no Lichess. Contudo, os torneios foram criados.\n\nA mensagem a ser enviada é esta:\n\n{message_to_send}")
     
