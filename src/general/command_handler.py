@@ -27,8 +27,6 @@ def execute_command(message):
         message_to_send = create_tournament_list_p1()
     elif command_tournament_list_p2 in message.lower():
         message_to_send = create_tournament_list_p2()
-    elif command_tournament_cafe in message.lower():
-        message_to_send = execute_command_tournament_cafe()
     elif command_swiss_tournament in message:
         message_to_send = execute_command_swiss(message)
     elif liches_search_url in message:
@@ -77,9 +75,7 @@ def execute_command_profile(message):
     print(user)
     return(get_user_status(user))
 
-def execute_command_tournament_cafe():
-    return(create_tournament_cafe())
-
 def execute_command_swiss(message):
+    print(message)
     tournament_params = remove_empty_spaces(remove_bot_mention(message).replace(command_swiss_tournament, ""))
     return(create_swis_tournament_with_params(tournament_params))
