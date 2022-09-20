@@ -65,6 +65,7 @@ def create_tournament_list_p1():
     time.sleep(1)
     message_to_send += f"{create_tournament_swiss(title= 'Carlsen Lobisomen', description = '', clock = 3, increment = 2, rounds = 7, interval = 5, hour = 0, minute = 5)}\n\n"
     message_to_send += "Obrigado e até a próxima!   o/ \n\n🏁🏁🏁🐎🐎🐎🏁🏁🏁"
+    time.sleep(5)
     response = send_message_to_team(message_to_send)
     if response != None:
         if (response["ok"] == True):
@@ -92,6 +93,7 @@ def create_tournament_list_p2():
     time.sleep(1)
     message_to_send += f"{create_tournament_swiss(title= 'Carlsen Lobisomen', description = '', clock = 3, increment = 2, rounds = 7, interval = 5, hour = 0, minute = 0)}\n\n"
     message_to_send += "Obrigado e até a próxima!   o/ \n\n🏁🏁🏁🐎🐎🐎🏁🏁🏁"
+    time.sleep(5)
     response = send_message_to_team(message_to_send)
     if response != None:
         if (response["ok"] == True):
