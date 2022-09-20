@@ -18,7 +18,7 @@ async def on_message(message):
   message_received = message.content
   print(message_received)
   if message_received.startswith(command_initial) or bot_mention in message_received or bot_name in message_received.lower():
-    if torneio_word in message.lower():
+    if torneio_word in message_received.lower():
       await message.channel.send("Criação de Torneios é demorada.\nSeu pedido pode levar cerca de 2 minutos.\nFavor aguardar.")
     answer_message = str(execute_command(message_received))
     length = len(answer_message)
