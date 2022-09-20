@@ -52,54 +52,54 @@ def create_tournament_list_p1():
     formatted_date = f"{local_dt.day}/{local_dt.month}/{local_dt.year}"
     message_to_send = f"Bom dia, CXGR. Os torneios de hoje ({formatted_date}) são:\n\n"
     message_to_send += f"{create_tournament_swiss(title= 'Café da Manhã', description = '', clock = 3, increment = 2, rounds = 7, interval = 5, hour = 10, minute = 0)}\n\n"
-    time.sleep(1)
+    time.sleep(5)
     message_to_send += f"{create_tournament_swiss(title= 'Continental', description = '', clock = 3, increment = 2, rounds = 9, interval = 5, hour = 13, minute = 0)}\n\n"
-    time.sleep(1)
+    time.sleep(5)
     message_to_send += f"{create_tournament_swiss(title= 'Iron Man', description = '', clock = 10, increment = 0, rounds = 5, interval = 60, hour = 15, minute = 0)}\n\n"
-    time.sleep(1)
+    time.sleep(5)
     message_to_send += f"{create_tournament_swiss(title= 'Pôr do Sol', description = '', clock = 7, increment = 2, rounds = 7, interval = 5, hour = 18, minute = 0)}\n\n"
-    time.sleep(1)
+    time.sleep(5)
     message_to_send += f"{create_tournament_swiss(title= 'Aladdyn', description = '', clock = 3, increment = 2, rounds = 7, interval = 5, hour = 21, minute = 0)}\n\n"
-    time.sleep(1)
+    time.sleep(5)
     message_to_send += f"{create_tournament_swiss(title= 'Lua Cheia', description = '', clock = 7, increment = 2, rounds = 7, interval = 5, hour = 22, minute = 5)}\n\n"
-    time.sleep(1)
+    time.sleep(5)
     message_to_send += f"{create_tournament_swiss(title= 'Carlsen Lobisomen', description = '', clock = 3, increment = 2, rounds = 7, interval = 5, hour = 0, minute = 5)}\n\n"
     message_to_send += "Obrigado e até a próxima!   o/ \n\n🏁🏁🏁🐎🐎🐎🏁🏁🏁"
-    time.sleep(5)
+    time.sleep(65)
     response = send_message_to_team(message_to_send)
     if response != None:
         if (response["ok"] == True):
             return(message_to_send)
         else:
-            return(f"Ocorreu um erro.\n\n{response}")
+            return(f"Ocorreu um erro ao enviar mensagem para os membros da Equipe no Lichess. Contudo, os torneios foram criados.\n\n{message_to_send}")
     else:
-        return(f"Ocorreu um erro. Desculpe.")
+        return(f"Ocorreu um erro ao enviar mensagem para os membros da Equipe no Lichess. Contudo, os torneios foram criados.\n\n{message_to_send}")
 
 def create_tournament_list_p2():
     local_dt = datetime.now()
     formatted_date = f"{local_dt.day}/{local_dt.month}/{local_dt.year}"
     message_to_send = f"Bom dia, CXGR. Os torneios de hoje ({formatted_date}) são:\n\n"
     message_to_send += f"{create_tournament_swiss(title= 'Café da Manhã', description = '', clock = 3, increment = 2, rounds = 7, interval = 5, hour = 11, minute = 0)}\n\n"
-    time.sleep(1)
+    time.sleep(5)
     message_to_send += f"{create_tournament_swiss(title= '40 Graus', description = 'https://i.imgur.com/Uyw2HUT.jpg', clock = 7, increment = 2, rounds = 7, interval = 5, hour = 13, minute = 15)}\n\n"
-    time.sleep(1)
+    time.sleep(5)
     message_to_send += f"{create_tournament_swiss(title= 'Flash', description = 'https://i.imgur.com/8FnNzis.jpg', clock = 5, increment = 3, rounds = 5, interval = 5, hour = 15, minute = 0)}\n\n"
-    time.sleep(1)
+    time.sleep(5)
     message_to_send += f"{create_tournament_swiss(title= 'Por do Sol', description = 'https://i.imgur.com/IJ0OO6N.jpg', clock = 7, increment = 2, rounds = 7, interval = 5, hour = 18, minute = 5)}\n\n"
-    time.sleep(1)
+    time.sleep(5)
     message_to_send += f"{create_tournament_swiss(title= 'Aladdyn', description = '', clock = 3, increment = 2, rounds = 7, interval = 5, hour = 21, minute = 0)}\n\n"
-    time.sleep(1)
+    time.sleep(5)
     message_to_send += f"{create_tournament_swiss(title= 'Lua Cheia', description = '', clock = 7, increment = 2, rounds = 7, interval = 5, hour = 22, minute = 0)}\n\n"
-    time.sleep(1)
+    time.sleep(5)
     message_to_send += f"{create_tournament_swiss(title= 'Carlsen Lobisomen', description = '', clock = 3, increment = 2, rounds = 7, interval = 5, hour = 0, minute = 0)}\n\n"
     message_to_send += "Obrigado e até a próxima!   o/ \n\n🏁🏁🏁🐎🐎🐎🏁🏁🏁"
-    time.sleep(5)
+    time.sleep(65)
     response = send_message_to_team(message_to_send)
     if response != None:
         if (response["ok"] == True):
             return(message_to_send)
         else:
-            return(f"Ocorreu um erro ao enviar mensagem para os membros do Grupo no Lichess. Contudo, os torneios foram criados.\n\nA mensagem a ser enviada é esta:\n\n{message_to_send}")
+            return(f"Ocorreu um erro ao enviar mensagem para os membros da Equipe no Lichess. Contudo, os torneios foram criados.\n\n{message_to_send}")
     else:
-        return(f"Ocorreu um erro ao enviar mensagem para os membros do Grupo no Lichess. Contudo, os torneios foram criados.\n\nA mensagem a ser enviada é esta:\n\n{message_to_send}")
+        return(f"Ocorreu um erro ao enviar mensagem para os membros da Equipe no Lichess. Contudo, os torneios foram criados.\n\n{message_to_send}")
     
