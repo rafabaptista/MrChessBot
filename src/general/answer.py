@@ -1,11 +1,8 @@
 import requests
-from api.lichess.lichess import get_confronts_between_two_players, export_game_gif, get_user_status_response, export_game_pgn, get_game_id, create_swiss_tournament
+from api.lichess.lichess import get_confronts_between_two_players, export_game_gif, get_user_status_response, export_game_pgn, get_game_id
 from util.constants import *
 from api.lichess.http import *
 from config.strings import *
-from config.environment_keys import bot_team_id
-from datetime import datetime
-import pytz
 
 
 def get_game_pgn(text_message):
@@ -119,25 +116,3 @@ def export_user_status(user_name, response):
         + "\n\n"
         + f"{text_profile_lichess}: {url_user}"
     )
-
-def create_swis_tournament_with_params(tournament_params):
-    params = tournament_params.split(',')
-    size_list_params = len(params)
-    if size_list_params == 7:
-        title = params[0]
-        clock_limit = params[1]
-        increment = params[2]
-        rounds = params[3]
-        starts_at = params[4]
-        interval_rounds = params[5]
-        team_id = params[6]
-        response = create_swiss_tournament(title, clock_limit, increment, rounds, starts_at, interval_rounds, team_id)
-        if response != None:
-            if (response["status"] == "created"):
-                tournament_id = response["id"]
-                return(f"O torneio foi criado com Sucesso!\n\nO link para acessá-lo é: {swiss_tournament_link}{tournament_id}")
-            else:
-                return("Não consegui criar o Torneio. Favor tentar novamente mais tarde =/")
-    else:
-        return("Algo não está certo.\nCertifique-se de que está mandando o comando exatamente assim:\n\n.swiss _Nome do Torneio_, _Tempo do Relógio (em segundos)_, _Tempo de incremento por lance (em segundos)_, _Número de rodadas_, _Horário de início do Torneio (timestamp com milisegundos)_, _Tempo de intervalo entre rodadas (em segundos)_, _Código da Equipe (está no final da URL da página da Equipe no Lichess)_\n\nPara gerar o Timestamp do horário do torneio, pode entrar nesse site: https://www.epochconverter.com/")
-        

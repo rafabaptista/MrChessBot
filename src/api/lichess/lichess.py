@@ -85,10 +85,11 @@ def get_user_status_response(user_name):
         print(err)
     return(None)
 
-def create_swiss_tournament(title, clock_limit, increment, rounds, starts_at, interval_rounds, team):
+def create_swiss_tournament(title, description, clock_limit, increment, rounds, starts_at, interval_rounds, team):
     request_url = f"{http_post_new_swiss_tournament}{team}"
     body = {
         'name': title,
+        'description': description,
         'clock.limit': clock_limit,
         'clock.increment': increment,
         'nbRounds': rounds,

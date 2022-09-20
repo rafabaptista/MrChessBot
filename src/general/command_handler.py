@@ -2,13 +2,12 @@ from config.environment_keys import *
 from util.constants import *
 from util.string_helper import is_from_lichess_domain
 from general.answer import get_game_pgn
-from general.answer import create_swis_tournament_with_params
 from general.answer import get_confronts
 from general.answer import get_game_gif
 from general.answer import get_user_status
-from general.cxgr.cxgr_tournaments import create_tournament_cafe
 from general.cxgr.cxgr_tournaments import create_tournament_list_p1
 from general.cxgr.cxgr_tournaments import create_tournament_list_p2
+from general.cxgr.cxgr_tournaments import create_swis_tournament_with_params
 from util.string_helper import remove_bot_mention
 from util.string_helper import remove_empty_spaces
 from config.strings import text_puzzle_command
