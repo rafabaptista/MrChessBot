@@ -33,7 +33,7 @@ def create_tournament_swiss(title, description, clock, increment, rounds, interv
 def create_swis_tournament_with_params(tournament_params):
     params = tournament_params.split(',')
     size_list_params = len(params)
-    print("Params: " + size_list_params)
+    print(size_list_params)
     if size_list_params == 8:
         title = params[0].strip()
         description = params[1].strip()
@@ -66,7 +66,7 @@ def create_tournament_list_p1():
     time.sleep(5)
     message_to_send += f"{create_tournament_swiss(title= 'Carlsen Lobisomen', description = '', clock = 3, increment = 2, rounds = 7, interval = 5, hour = 0, minute = 5)}\n\n"
     message_to_send += "Obrigado e até a próxima!   o/ \n\n🏁🏁🏁🐎🐎🐎🏁🏁🏁"
-    time.sleep(65)
+    time.sleep(60)
     response = send_message_to_team(message_to_send)
     if response != None:
         if (response["ok"] == True):
@@ -94,7 +94,7 @@ def create_tournament_list_p2():
     time.sleep(5)
     message_to_send += f"{create_tournament_swiss(title= 'Carlsen Lobisomen', description = '', clock = 3, increment = 2, rounds = 7, interval = 5, hour = 0, minute = 0)}\n\n"
     message_to_send += "Obrigado e até a próxima!   o/ \n\n🏁🏁🏁🐎🐎🐎🏁🏁🏁"
-    time.sleep(65)
+    time.sleep(60)
     response = send_message_to_team(message_to_send)
     if response != None:
         if (response["ok"] == True):
