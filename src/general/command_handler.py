@@ -77,5 +77,5 @@ def execute_command_profile(message):
 
 def execute_command_swiss(message):
     print(message)
-    tournament_params = remove_empty_spaces(remove_bot_mention(message).replace(command_swiss_tournament, ""))
+    tournament_params = remove_bot_mention(message).replace(command_swiss_tournament, "")
     return(create_swis_tournament_with_params(tournament_params))

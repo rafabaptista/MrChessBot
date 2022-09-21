@@ -33,16 +33,24 @@ def create_tournament_swiss(title, description, clock, increment, rounds, interv
 def create_swis_tournament_with_params(tournament_params):
     params = tournament_params.split(',')
     size_list_params = len(params)
-    print(size_list_params)
+    print(params)
     if size_list_params == 8:
         title = params[0].strip()
+        print(f"title: {title}")
         description = params[1].strip()
-        clock = params[2].strip()
-        increment = params[3].strip()
-        rounds = params[4].strip()
-        interval = params[5].strip()
-        hour = params[6].strip()
-        minute = params[7].strip()
+        print(f"description: {description}")
+        clock = int(params[2].strip())
+        print(f"clock: {clock}")
+        increment = int(params[3].strip())
+        print(f"increment: {increment}")
+        rounds = int(params[4].strip())
+        print(f"rounds: {rounds}")
+        interval = int(params[5].strip())
+        print(f"interval: {interval}")
+        hour = int(params[6].strip())
+        print(f"hour: {hour}")
+        minute = int(params[7].strip())
+        print(f"minute: {minute}")
         return(create_tournament_swiss(title, description, clock, increment, rounds, interval, hour, minute))
     else:
         return("Algo não está certo.\nCertifique-se de que está mandando o comando exatamente assim:\n\n.swiss _Nome do Torneio_, _Tempo do Relógio (em segundos)_, _Tempo de incremento por lance (em segundos)_, _Número de rodadas_, _Horário de início do Torneio (timestamp com milisegundos)_, _Tempo de intervalo entre rodadas (em segundos)_, _Código da Equipe (está no final da URL da página da Equipe no Lichess)_\n\nPara gerar o Timestamp do horário do torneio, pode entrar nesse site: https://www.epochconverter.com/")
@@ -66,7 +74,7 @@ def create_tournament_list_p1():
     time.sleep(5)
     message_to_send += f"{create_tournament_swiss(title= 'Carlsen Lobisomen', description = '', clock = 3, increment = 2, rounds = 7, interval = 5, hour = 0, minute = 5)}\n\n"
     message_to_send += "Obrigado e até a próxima!   o/ \n\n🏁🏁🏁🐎🐎🐎🏁🏁🏁"
-    time.sleep(60)
+    time.sleep(5)
     response = send_message_to_team(message_to_send)
     if response != None:
         if (response["ok"] == True):
@@ -94,7 +102,7 @@ def create_tournament_list_p2():
     time.sleep(5)
     message_to_send += f"{create_tournament_swiss(title= 'Carlsen Lobisomen', description = '', clock = 3, increment = 2, rounds = 7, interval = 5, hour = 0, minute = 0)}\n\n"
     message_to_send += "Obrigado e até a próxima!   o/ \n\n🏁🏁🏁🐎🐎🐎🏁🏁🏁"
-    time.sleep(60)
+    time.sleep(5)
     response = send_message_to_team(message_to_send)
     if response != None:
         if (response["ok"] == True):
