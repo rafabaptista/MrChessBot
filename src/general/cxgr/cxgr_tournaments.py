@@ -14,7 +14,7 @@ def create_tournament_swiss(title, description, clock, increment, rounds, interv
     interval_rounds = interval
     team_id = bot_team_id
     local_dt = datetime.now()
-    if (hour == 0):
+    if (hour >= 0 and hour <= 2):
         new_date = datetime(local_dt.year, local_dt.month, local_dt.day + 1, hour, minute, 0, 0) #Brazil's zone [Sao Paulo]
     else:
         new_date = datetime(local_dt.year, local_dt.month, local_dt.day, hour, minute, 0, 0) #Brazil's zone [Sao Paulo]
