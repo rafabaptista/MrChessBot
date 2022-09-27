@@ -7,6 +7,7 @@ from general.answer import get_game_gif
 from general.answer import get_user_status
 from general.cxgr.cxgr_tournaments import create_tournament_list_p1
 from general.cxgr.cxgr_tournaments import create_tournament_list_p2
+from general.cxgr.cxgr_tournaments import create_tournament_list_p3
 from general.cxgr.cxgr_tournaments import create_swis_tournament_with_params
 from util.string_helper import remove_bot_mention
 from util.string_helper import remove_empty_spaces
@@ -27,6 +28,8 @@ def execute_command(message):
         message_to_send = create_tournament_list_p1()
     elif command_tournament_list_p2 in message.lower():
         message_to_send = create_tournament_list_p2()
+    elif command_tournament_list_p3 in message.lower():
+        message_to_send = create_tournament_list_p3()
     elif command_swiss_tournament in message:
         message_to_send = execute_command_swiss(message)
     elif liches_search_url in message:
