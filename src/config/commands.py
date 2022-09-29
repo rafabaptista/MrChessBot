@@ -9,8 +9,10 @@ command_pgn_fix = ". pgn"
 command_profile = ".perfil"
 command_profile_fix = ". perfil"
 
-command_tournament_cafe = ".cafe"
+#Tournaments
 command_swiss_tournament = ".swiss"
+command_arena_tournament = ".arena"
 command_tournament_list_p1 = ".torneio-p1"
 command_tournament_list_p2 = ".torneio-p2"
 command_tournament_list_p3 = ".torneio-p3"
+command_tournament_list_p4 = ".torneio-p4"

@@ -1,16 +1,15 @@
 from config.environment_keys import *
+from model.tournament import Tournament
 from util.constants import *
-from util.string_helper import is_from_lichess_domain
+from util.string_helper import is_from_lichess_domain, remove_tournament_keys
 from general.answer import get_game_pgn
 from general.answer import get_confronts
 from general.answer import get_game_gif
 from general.answer import get_user_status
-from general.cxgr.cxgr_tournaments import create_tournament_list_p1
-from general.cxgr.cxgr_tournaments import create_tournament_list_p2
-from general.cxgr.cxgr_tournaments import create_tournament_list_p3
+from general.cxgr.cxgr_tournaments import create_tournament_list
 from general.cxgr.cxgr_tournaments import create_swis_tournament_with_params
-from util.string_helper import remove_bot_mention
-from util.string_helper import remove_empty_spaces
+from general.cxgr.cxgr_tournaments import create_arena_tournament_with_params
+from util.string_helper import remove_empty_spaces, remove_comma, remove_bot_mention
 from config.strings import text_puzzle_command
 from config.strings import text_puzzle_answer_command
 from config.strings import text_bot_mentioned_reply
@@ -25,13 +24,17 @@ def execute_command(message):
     elif command_profile_fix in message.lower() or command_profile in message.lower():
         message_to_send = execute_command_profile(message)
     elif command_tournament_list_p1 in message.lower():
-        message_to_send = create_tournament_list_p1()
+        message_to_send = execute_command_tournament(Tournament.Type.P1, message)
     elif command_tournament_list_p2 in message.lower():
-        message_to_send = create_tournament_list_p2()
+        message_to_send = execute_command_tournament(Tournament.Type.P2, message)
     elif command_tournament_list_p3 in message.lower():
-        message_to_send = create_tournament_list_p3()
+        message_to_send = execute_command_tournament(Tournament.Type.P3, message)
+    elif command_tournament_list_p4 in message.lower():
+        message_to_send = execute_command_tournament(Tournament.Type.P4, message)
     elif command_swiss_tournament in message:
         message_to_send = execute_command_swiss(message)
+    elif command_arena_tournament in message:
+        message_to_send = execute_command_arena(message)
     elif liches_search_url in message:
         message_to_send = execute_command_gif(message)
     elif command_puzzle in message:
@@ -82,3 +85,18 @@ def execute_command_swiss(message):
     print(message)
     tournament_params = remove_bot_mention(message).replace(command_swiss_tournament, "")
     return(create_swis_tournament_with_params(tournament_params))
+
+def execute_command_arena(message):
+    print(message)
+    tournament_params = remove_bot_mention(message).replace(command_arena_tournament, "")
+    return(create_arena_tournament_with_params(tournament_params))
+
+def execute_command_tournament(type, message):
+    print(type)
+    print(message)
+    if "," in message:
+        message = remove_bot_mention(message)
+        command = remove_tournament_keys(message)
+        extra_message = command.replace(",", "", 1)
+        return(create_tournament_list(type, extra_message))
+    return(create_tournament_list(type))

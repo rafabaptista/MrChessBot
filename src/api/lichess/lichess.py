@@ -1,5 +1,7 @@
 import json
 import requests
+from model.arena import Arena
+from model.swiss import Swiss
 from util.constants import *
 from api.lichess.http import *
 from util.string_helper import remove_quote
@@ -85,49 +87,16 @@ def get_user_status_response(user_name):
         print(err)
     return(None)
 
-def create_swiss_tournament(title, description, clock_limit, increment, rounds, starts_at, interval_rounds, team):
-    request_url = f"{http_post_new_swiss_tournament}{team}"
+def create_swiss_tournament(swiss: Swiss):
+    request_url = f"{http_post_new_swiss_tournament}{swiss.team_id}"
     body = {
-        'name': title,
-        'description': description,
-        'clock.limit': clock_limit,
-        'clock.increment': increment,
-        'nbRounds': rounds,
-        'startsAt': starts_at,
-        'roundInterval': interval_rounds
-    }
-    headers = json_header_post_with_authorization_bot
-    try:
-        print("Url: " + request_url)
-        response = requests.post(request_url, headers=headers, data=body, timeout=5)
-        response.raise_for_status()
-        print("Response Status Code: " + str(response.status_code))
-        json_response = response.json()
-        print(json_response)
-        if response.status_code == 200:
-            return(json_response)
-        else:
-            return(None)
-    except requests.exceptions.HTTPError as errh:
-        print(errh)
-    except requests.exceptions.ConnectionError as errc:
-        print(errc)
-    except requests.exceptions.Timeout as errt:
-        print(errt)
-    except requests.exceptions.RequestException as err:
-        print(err)
-    return(None)
-
-def create_custom_swiss_tournament(title, description, clock_limit, increment, rounds, starts_at, interval_rounds, team):
-    request_url = f"{http_post_new_swiss_tournament}{team}"
-    body = {
-        'name': title, 
-        'description': description,
-        'clock.limit': clock_limit,
-        'clock.increment': increment,
-        'nbRounds': rounds,
-        'startsAt': starts_at,
-        'roundInterval': interval_rounds
+        'name': swiss.title,
+        'description': swiss.description,
+        'clock.limit': swiss.clock,
+        'clock.increment': swiss.increment,
+        'nbRounds': swiss.rounds,
+        'startsAt': swiss.starts_at,
+        'roundInterval': swiss.interval
     }
     headers = json_header_post_with_authorization_bot
     try:
@@ -155,6 +124,40 @@ def send_message_to_team(message):
     request_url = f"{http_post_team}"
     body = {
         'message': message
+    }
+    headers = json_header_post_with_authorization_bot
+    try:
+        print("Url: " + request_url)
+        response = requests.post(request_url, headers=headers, data=body, timeout=5)
+        response.raise_for_status()
+        print("Response Status Code: " + str(response.status_code))
+        json_response = response.json()
+        print(json_response)
+        if response.status_code == 200:
+            return(json_response)
+        else:
+            return(None)
+    except requests.exceptions.HTTPError as errh:
+        print(errh)
+    except requests.exceptions.ConnectionError as errc:
+        print(errc)
+    except requests.exceptions.Timeout as errt:
+        print(errt)
+    except requests.exceptions.RequestException as err:
+        print(err)
+    return(None)
+
+
+def create_arena_tournament(arena: Arena):
+    request_url = f"{http_post_new_arena_tournament}"
+    body = {
+        'name': arena.title,
+        'description': arena.description,
+        'clockTime': arena.clock,
+        'clockIncrement': arena.increment,
+        'minutes': arena.duration,
+        'startDate': arena.starts_at,
+        'conditions.teamMember.teamId': arena.team_id
     }
     headers = json_header_post_with_authorization_bot
     try:
