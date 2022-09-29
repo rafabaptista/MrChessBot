@@ -1,5 +1,3 @@
-from tokenize import String
-from turtle import title
 from api.lichess.lichess import create_swiss_tournament, create_arena_tournament
 from api.lichess.lichess import send_message_to_team
 from config.environment_keys import bot_team_id
