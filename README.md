@@ -17,7 +17,8 @@ Mention the BOT in Discord along with the command
 * `@Your_BOT_Name .confronto <user_name_1>, <user_name_2>` → show the statistics from the matches between two players.
 
 ## Help / Contact / Issues / Requests / Collaboration
-Questions, issues and requests can be posted as an issue in this repository.
+Questions, issues and requests can be posted as an issue in this repository or send in the Discord below:
+[Mr Chess, the Bot Discord Server](https://discord.gg/TpDQkekzfX)
 
 ## Screenshots
 ![Mr Chess, the Bot](/media/MrChessBotProfImage.png)
