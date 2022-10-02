@@ -47,7 +47,7 @@ def create_arena_tournament_with_params(tournament_params):
         arena.minute = int(params[6].strip())
         print(f"minute: {arena.minute}")
         return(create_tournament_arena(arena))
-    return("Algo não está certo.\nCertifique-se de que está mandando o comando exatamente assim:\n\n.swiss _Nome do Torneio_, _Descrição do Torneio (pode ser o link de uma imagem .jpg)_, _Tempo do Relógio (em segundos)_, _Tempo de incremento por lance (em segundos)_, _Duração do Torneio (em minutos)_, _Hora de início do Torneio (em minutos)_, _Minutos de início do Torneio (em minutos)_")
+    return("Algo não está certo.\nCertifique-se de que está mandando o comando exatamente assim:\n\n.arena _Nome do Torneio_, _Descrição do Torneio (pode ser o link de uma imagem .jpg)_, _Tempo do Relógio (em segundos)_, _Tempo de incremento por lance (em segundos)_, _Duração do Torneio (em minutos)_, _Hora de início do Torneio (em minutos)_, _Minutos de início do Torneio (em minutos)_")
 
 def create_tournament_swiss(swiss: Swiss):
     clock_time = swiss.clock

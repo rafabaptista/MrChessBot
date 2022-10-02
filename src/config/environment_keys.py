@@ -1,7 +1,7 @@
 import os
 #The token for your bot must be placed in this OS environment
-token = os.environ['mrchesskey'] 
-#token = os.environ['mrchesstestkey'] #for test
+#token = os.environ['mrchesskey'] 
+token = os.environ['mrchesstestkey'] #for test
 lichess_access_token = os.environ['mrchesslichessapiaccesstoken'] #The token for your Lichess acc bot must be placed in this OS environment
 bot_mention = os.environ['botname'] #The BOT's name for your bot must be placed in this OS environment
 bot_name_lower = "@mrchessbot"
@@ -14,6 +14,6 @@ bot_name_variant_4 = "@MrChessbot"
 bot_name_variant_5 = "@mrChessbot"
 bot_name_variant_6 = "@mrChessBot"
 bot_name_variant_7 = "@mrChessBOT"
-bot_team_id = "cxgr"
-#bot_team_id = "ccmh"
+#bot_team_id = "cxgr"
+bot_team_id = "ccmh"
 administrators_role = "Administradores"
