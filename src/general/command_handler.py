@@ -12,7 +12,7 @@ from general.cxgr.cxgr_tournaments import create_arena_tournament_with_params
 from util.string_helper import remove_empty_spaces, remove_comma, remove_bot_mention
 from config.strings import text_puzzle_command
 from config.strings import text_puzzle_answer_command
-from config.strings import text_bot_mentioned_reply
+from config.strings import bot_helper
 from config.commands import *
 
 def execute_command(message):
@@ -74,7 +74,7 @@ def execute_command_puzzle_answer():
     return(text_puzzle_answer_command)
 
 def standard_bot_mention_reply():
-    return(text_bot_mentioned_reply)
+    return(bot_helper)
 
 def execute_command_profile(message):
     user = remove_empty_spaces(remove_bot_mention(message).replace(command_profile_fix, "").replace(command_profile, ""))
