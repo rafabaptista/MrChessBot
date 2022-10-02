@@ -2,7 +2,6 @@
 
 <p>
 <a href="https://top.gg/bot/976038110540496976"><img alt="Bot status widget" src="https://top.gg/api/widget/status/976038110540496976.svg"></a>
-<a href="https://top.gg/bot/976038110540496976"><img alt="Discord Bots" src="https://top.gg/api/widget/servers/976038110540496976.svg"></a>
 <a href="https://github.com/UltiRequiem/python-projects-for-intermediates/blob/main/LICENSE"><img alt="License: MIT" src="https://black.readthedocs.io/en/stable/_static/license.svg"></a>
 </p>
    
