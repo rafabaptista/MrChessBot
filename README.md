@@ -1,5 +1,9 @@
 # MrChessBot
-=============
+
+<p>
+<a href="https://discord.com/api/oauth2/authorize?client_id=976038110540496976&permissions=277566692422&scope=bot"><img alt="Discord server invite" src="https://discord.com/api/guilds/336642139381301249/embed.png"></a>
+<a href="https://github.com/UltiRequiem/python-projects-for-intermediates/blob/main/LICENSE"><img alt="License: MIT" src="https://black.readthedocs.io/en/stable/_static/license.svg"></a>
+</p>
 
 .. image:: https://discord.com/api/guilds/336642139381301249/embed.png
    :target: https://discord.com/api/oauth2/authorize?client_id=976038110540496976&permissions=277566692422&scope=bot
