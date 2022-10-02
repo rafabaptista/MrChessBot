@@ -10,6 +10,7 @@
 .. image:: https://img.shields.io/pypi/pyversions/discord.py.svg
    :target: https://pypi.python.org/pypi/discord.py
    :alt: PyPI supported Python versions
+   
 A Discord BOT integrated with Lichess Platform
 
 [Click here to invite the bot to your server!](https://discord.com/api/oauth2/authorize?client_id=976038110540496976&permissions=277566692422&scope=bot)
