@@ -1,3 +1,8 @@
+**Version 2.0.2**
+---
+* \[Fix\] Specify Intents all() to start Discord Client for bot events
+
+
 **Version 2.0.1**
 ---
 * \[Fix\] Specify Intents to start Discord Client
