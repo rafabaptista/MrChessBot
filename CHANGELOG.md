@@ -1,3 +1,7 @@
+**Version 2.0.1**
+---
+* \[Fix\] Specify Intents to start Discord Client
+
 **Version 2.0.0**
 ---
 * \[New\] New Main, based on Discord.py Commands

@@ -11,7 +11,7 @@ from config.commands import *
 from general.cxgr.cxgr_tournaments import *
 from config.environment_keys import *
 
-bot = commands.Bot(command_prefix='.', case_insensitive=True)
+bot = commands.Bot(command_prefix='.', intents=discord.Intents.default(), case_insensitive=True)
 
 @bot.event
 async def on_ready(): 
