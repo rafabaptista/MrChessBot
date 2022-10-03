@@ -1,3 +1,9 @@
+**Version 2.0.3**
+---
+* \[New\] Add New tournament list -> .torneio-p5
+* \[Update\] Decrease sleep between tournament list creation to 1 second
+* \[Fix\] Fix for .torneio-p1
+
 **Version 2.0.2**
 ---
 * \[Fix\] Specify Intents all() to start Discord Client for bot events

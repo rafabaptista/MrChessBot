@@ -148,6 +148,10 @@ async def tournament_list_p3(ctx, *, extra_message = None):
 async def tournament_list_p4(ctx, *, extra_message = None):
     await create_tournament(ctx, Tournament.Type.P4, extra_message)
 
+@bot.command(name= "torneio-p5")
+async def tournament_list_p5(ctx, *, extra_message = None):
+    await create_tournament(ctx, Tournament.Type.P5, extra_message)
+
 async def create_tournament(ctx, type: Tournament.Type, extra_message = None):
     if is_user_has_permission_to_create_tournaments(ctx.author.roles):
         await ctx.send("Criação de vários Torneios é um pouco demorada.\nFavor aguardar.\n\n")

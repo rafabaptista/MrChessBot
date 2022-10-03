@@ -8,7 +8,7 @@ from util.constants import swiss_tournament_link, arena_tournament_link
 from datetime import datetime
 import time
 
-time_interval_sleep = 5
+time_interval_sleep = 1
 
 def create_tournament_arena(arena: Arena):
     arena.team_id = bot_team_id
@@ -92,7 +92,6 @@ def create_swis_tournament_with_params(tournament_params):
         return(create_tournament_swiss(swiss))
     return("Algo não está certo.\nCertifique-se de que está mandando o comando exatamente assim:\n\n.swiss _Nome do Torneio_, _Descrição do Torneio (pode ser o link de uma imagem .jpg)_, _Tempo do Relógio (em segundos)_, _Tempo de incremento por lance (em segundos)_, _Número de rodadas_, _Tempo de intervalo entre rodadas (em segundos)_, _Hora de início do Torneio (em minutos)_, _Minutos de início do Torneio (em minutos)_")
         
-
 def create_tournament_list_p1():
     tournaments_info = ""
     cafe_da_manha = Swiss(title= 'Café da Manhã', description= '', clock= 3, increment= 2, rounds= 7, interval= 5, hour= 11, minute= 0)
@@ -107,7 +106,7 @@ def create_tournament_list_p1():
     por_do_sol = Swiss(title= 'Por do Sol', description= 'https://i.imgur.com/IJ0OO6N.jpg', clock= 7, increment= 2, rounds= 7, interval= 5, hour= 18, minute= 5)
     tournaments_info += f"{create_tournament_swiss(por_do_sol)}\n\n"
     time.sleep(time_interval_sleep)
-    aladdyn = Swiss(title= 'Aladdyn', description= '', cloc = 3, increment= 2, rounds= 7, interval= 5, hour= 21, minute= 0)
+    aladdyn = Swiss(title= 'Aladdyn', description= '', clock = 3, increment= 2, rounds= 7, interval= 5, hour= 21, minute= 0)
     tournaments_info += f"{create_tournament_swiss(aladdyn)}\n\n"
     time.sleep(time_interval_sleep)
     lua_cheia = Swiss(title= 'Lua Cheia', description= '', clock= 7, increment= 2, rounds= 7, interval= 5, hour= 22, minute= 0)
@@ -161,13 +160,13 @@ def create_tournament_list_p3():
     lua_cheia = Swiss(title= 'Lua Cheia', description= 'https://i.imgur.com/BasYzhK.jpg', clock= 7, increment= 2, rounds= 5, interval= 5, hour= 22, minute= 15)
     tournaments_info += f"{create_tournament_swiss(lua_cheia)}\n\n"
     time.sleep(time_interval_sleep)
-    carlsen_lobisomen = Swiss(title= 'Carlsen Lobisomen', description= 'https://i.imgur.com/b4TXEzM.png', clock= 3, increment= 2, rounds= 7, interval= 5, hour= 0, minute= 15)
+    carlsen_lobisomen = Swiss(title= 'Carlsen Lobisomen', description= 'https://i.imgur.com/b4TXEzM.jpg', clock= 3, increment= 2, rounds= 7, interval= 5, hour= 0, minute= 15)
     tournaments_info += f"{create_tournament_swiss(carlsen_lobisomen)}\n\n"
     return(tournaments_info)
 
 def create_tournament_list_p4():
     tournaments_info = ""
-    despertador = Arena(title= 'Despertador', description= 'https://i.imgur.com/dwov4dA.jpg', clock= 5, increment= 3, duration= 60,hour= 8, minute= 30)
+    despertador = Arena(title= 'Despertador', description= 'https://i.imgur.com/G7Jsm2A.jpg', clock= 5, increment= 3, duration= 60,hour= 8, minute= 30)
     tournaments_info += f"{create_tournament_arena(despertador)}\n\n"
     time.sleep(time_interval_sleep)
     cafe_da_manha = Swiss(title= 'Café da Manhã', description= 'https://i.imgur.com/pqEs4vY.jpg', clock= 3, increment= 2, rounds= 7, interval= 5, hour= 10, minute= 15)
@@ -189,6 +188,24 @@ def create_tournament_list_p4():
     tournaments_info += f"{create_tournament_swiss(lua_cheia)}\n\n"
     return(tournaments_info)
 
+def create_tournament_list_p5():
+    tournaments_info = ""
+    despertador = Arena(title= 'Despertador', description= 'https://i.imgur.com/G7Jsm2A.jpg', clock= 5, increment= 3, duration= 60,hour= 8, minute= 30)
+    tournaments_info += f"{create_tournament_arena(despertador)}\n\n"
+    time.sleep(time_interval_sleep)
+    almoco = Swiss(title= 'Parmegiana', description= 'https://i.imgur.com/amHPhqi.jpg',clock= 10, increment= 2, rounds= 5, interval= 5, hour= 13, minute= 10)
+    tournaments_info += f"{create_tournament_swiss(almoco)}\n\n"
+    time.sleep(time_interval_sleep)
+    naka = Arena(title= 'Naka', description= 'https://i.imgur.com/RyrXllx.jpg', clock= 3, increment= 2, duration= 60, hour= 18, minute= 10)
+    tournaments_info += f"{create_tournament_arena(naka)}\n\n"
+    time.sleep(time_interval_sleep)
+    torre_na_setima = Swiss(title= 'Bobby Fischer', description= 'https://i.imgur.com/H6TSF3Z.jpg', clock= 10, increment= 0, rounds= 5, interval= 10, hour= 20, minute= 0)
+    tournaments_info += f"{create_tournament_swiss(torre_na_setima)}\n\n"
+    time.sleep(time_interval_sleep)
+    carlsen_lobisomen = Swiss(title= 'Carlsen Lobisomen', description= 'https://i.imgur.com/b4TXEzM.jpg', clock= 3, increment= 2, rounds= 7, interval= 5, hour= 23, minute= 30)
+    tournaments_info += f"{create_tournament_swiss(carlsen_lobisomen)}\n\n"
+    return(tournaments_info)
+
 def create_tournament_list(type: Tournament.Type, extra_message = None):
     local_dt = datetime.now()
     formatted_date = f"{local_dt.day}/{local_dt.month}/{local_dt.year}"
@@ -202,6 +219,8 @@ def create_tournament_list(type: Tournament.Type, extra_message = None):
             message_to_send += create_tournament_list_p3()
         case Tournament.Type.P4:
             message_to_send += create_tournament_list_p4()
+        case Tournament.Type.P5:
+            message_to_send += create_tournament_list_p5()
     if (extra_message != None):
         message_to_send += f"{extra_message.strip()}\n\n"
     message_to_send += "Obrigado e até a próxima!   o/ \n\n🏁🏁🏁♟️🐎🐎🐎♟️🏁🏁🏁"
