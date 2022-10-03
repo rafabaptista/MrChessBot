@@ -1,15 +1,13 @@
-import requests
 from api.lichess.lichess import get_confronts_between_two_players, export_game_gif, get_user_status_response, export_game_pgn, get_game_id
 from util.constants import *
 from api.lichess.http import *
 from config.strings import *
 
-
 def get_game_pgn(text_message):
     game_id = get_game_id(text_message)
     pgn = export_game_pgn(game_id)
     return(pgn)
-  
+
 def get_game_gif(url):
     game_id = get_game_id(url)
     url_gif =  export_game_gif(game_id)
@@ -56,7 +54,7 @@ def get_user_status(user_name):
         return(result)
     else:
         return(text_no_info_found)
-    
+
 def export_user_status(user_name, response):
     categories = response["perfs"]
 
