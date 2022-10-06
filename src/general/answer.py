@@ -1,6 +1,6 @@
-from api.lichess.lichess import get_confronts_between_two_players, export_game_gif, get_user_status_response, export_game_pgn, get_game_id
+from network.api.lichess.lichess import get_confronts_between_two_players, export_game_gif, get_user_status_response, export_game_pgn, get_game_id
 from util.constants import *
-from api.lichess.http import *
+from network.api.lichess.http import *
 from config.strings import *
 
 def get_game_pgn(text_message):

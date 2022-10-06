@@ -1,3 +1,9 @@
+**Version 2.1.0**
+---
+* \[New\] Support MongoDB
+* \[New\] New way to create tournaments integrated with DB
+* \[New\] CRUD for tournaments
+
 **Version 2.0.3**
 ---
 * \[New\] Add New tournament list -> .torneio-p5
