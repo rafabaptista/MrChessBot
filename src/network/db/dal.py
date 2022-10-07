@@ -13,7 +13,7 @@ def insert_new_swiss_tournament(swiss: Swiss, pattern_name):
         "description": swiss.description, 
         "clock": swiss.clock, 
         "increment": swiss.increment, 
-        "hour": swiss.hour, 
+        "hour": fix_hour_for_database(swiss.hour), 
         "minute": swiss.minute, 
         "rounds": swiss.rounds,  
         "interval": swiss.interval
@@ -37,7 +37,7 @@ def insert_new_arena_tournament(arena: Arena, pattern_name):
         "description": arena.description, 
         "clock": arena.clock, 
         "increment": arena.increment, 
-        "hour": arena.hour, 
+        "hour": fix_hour_for_database(arena.hour), 
         "minute": arena.minute, 
         "duration": arena.duration
     }
@@ -91,3 +91,16 @@ def delete_all_tournaments_by_pattern_namet(pattern_name):
         response = False
     client.close()  
     return(response)
+
+def fix_hour_for_database(hour):
+    fixed_hour = 0
+    match hour:
+        case 0:
+            fixed_hour = 24
+        case 1:
+            fixed_hour = 25
+        case 2:
+            fixed_hour = 26
+        case other:
+            fixed_hour = hour
+    return(fixed_hour)

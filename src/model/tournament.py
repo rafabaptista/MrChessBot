@@ -18,3 +18,16 @@ class Tournament:
         P3 = 3
         P4 = 4
         P5 = 5
+
+def fix_hour(hour):
+    fixed_hour = 0
+    match hour:
+        case 24:
+            fixed_hour = 0
+        case 25:
+            fixed_hour = 1
+        case 26:
+            fixed_hour = 2
+        case other:
+            fixed_hour = hour
+    return(fixed_hour)

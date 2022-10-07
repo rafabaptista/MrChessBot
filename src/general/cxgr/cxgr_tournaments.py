@@ -1,6 +1,7 @@
 from network.api.lichess.lichess import create_swiss_tournament, create_arena_tournament
 from network.api.lichess.lichess import send_message_to_team
 from config.environment_keys import bot_team_id
+from model.tournament import fix_hour
 from model.arena import Arena, map_arena_tournament
 from model.swiss import Swiss, map_swiss_tournament
 from model.tournament import Tournament
@@ -16,16 +17,17 @@ def create_tournament_arena(arena: Arena):
     arena.team_id = bot_team_id
     local_dt = datetime.now()
     duration_hours = str(round(arena.duration/60, 2)).replace('.0', '')
-    if (arena.hour >= 0 and arena.hour <= 2):
-        new_date = datetime(local_dt.year, local_dt.month, local_dt.day + 1, arena.hour, arena.minute, 0, 0) #Brazil's zone [Sao Paulo]
+    tournament_hour = fix_hour(arena.hour)
+    if (tournament_hour >= 0 and tournament_hour <= 2):
+        new_date = datetime(local_dt.year, local_dt.month, local_dt.day + 1, tournament_hour, arena.minute, 0, 0) #Brazil's zone [Sao Paulo]
     else:
-        new_date = datetime(local_dt.year, local_dt.month, local_dt.day, arena.hour, arena.minute, 0, 0) #Brazil's zone [Sao Paulo]
+        new_date = datetime(local_dt.year, local_dt.month, local_dt.day, tournament_hour, arena.minute, 0, 0) #Brazil's zone [Sao Paulo]
     time_converted = new_date.strftime('%s')
     arena.starts_at = int(float(time_converted)*1000)
     response = create_arena_tournament(arena)
     if response != None:
         tournament_id = response["id"]
-        return(f"[Arena] {arena.title} ({arena.clock}+{arena.increment}) - {duration_hours}h - {format(arena.hour, '02d')}:{format(arena.minute, '02d')}:\n{arena_tournament_link}{tournament_id}")
+        return(f"[Arena] {arena.title} ({arena.clock}+{arena.increment}) - {duration_hours}h - {format(tournament_hour, '02d')}:{format(arena.minute, '02d')}:\n{arena_tournament_link}{tournament_id}")
     return(f"Não foi possível criar o torneio ***{arena.title}***. Desculpe =/")
 
 def create_arena_tournament_with_params(tournament_params):
@@ -88,17 +90,18 @@ def create_tournament_swiss(swiss: Swiss):
     swiss.clock = clock_time * 60
     swiss.team_id = bot_team_id
     local_dt = datetime.now()
-    if (swiss.hour >= 0 and swiss.hour <= 2):
-        new_date = datetime(local_dt.year, local_dt.month, local_dt.day + 1, swiss.hour,swiss. minute, 0, 0) #Brazil's zone [Sao Paulo]
+    tournament_hour = fix_hour(swiss.hour)
+    if (tournament_hour >= 0 and tournament_hour <= 2):
+        new_date = datetime(local_dt.year, local_dt.month, local_dt.day + 1, tournament_hour,swiss. minute, 0, 0) #Brazil's zone [Sao Paulo]
     else:
-        new_date = datetime(local_dt.year, local_dt.month, local_dt.day, swiss.hour, swiss.minute, 0, 0) #Brazil's zone [Sao Paulo]
+        new_date = datetime(local_dt.year, local_dt.month, local_dt.day, tournament_hour, swiss.minute, 0, 0) #Brazil's zone [Sao Paulo]
     time_converted = new_date.strftime('%s')
     swiss.starts_at = int(float(time_converted)*1000)
     response = create_swiss_tournament(swiss)
     if response != None:
         if (response["status"] == "created"):
             tournament_id = response["id"]
-            return(f"[Suiço] {swiss.title} ({clock_time}+{swiss.increment}) - {swiss.rounds} RD - {format(swiss.hour, '02d')}:{format(swiss.minute, '02d')}:\n{swiss_tournament_link}{tournament_id}")
+            return(f"[Suiço] {swiss.title} ({clock_time}+{swiss.increment}) - {swiss.rounds} RD - {format(tournament_hour, '02d')}:{format(swiss.minute, '02d')}:\n{swiss_tournament_link}{tournament_id}")
     return(f"Não foi possível criar o torneio ***{swiss.title}***. Desculpe =/")
 
 def create_swis_tournament_with_params(tournament_params):
@@ -311,7 +314,7 @@ def get_tournament_list(list_name):
         description = tournament["description"]
         clock = tournament["clock"]
         increment = tournament["increment"]
-        hour = tournament["hour"]
+        hour = fix_hour(tournament["hour"])
         minute = tournament["minute"]
         if (type == "S"):
             type_tournament = "Suiço"

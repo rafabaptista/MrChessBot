@@ -175,7 +175,7 @@ async def add_tournament_swiss(ctx, *, params = None):
     if is_user_has_permission_to_create_tournaments(ctx.author.roles):
         sintax = 'Sintaxe:\n.adicionar-torneio-swiss <nome da lista (p1, p2 ... pn)>, <título>, <descrição>, '\
             '<tempo relógio (em minutos)>, <incremento (em segundos)>, <nº de rodadas>, <intervalo entre rodadas (em segundos)>, '\
-            '<hora (0..24)>, <minutos (0..60)>'
+            '<hora (0..23)>, <minutos (0..60)>'
         try:
             if params == None:
                 embed_info = get_embed_info(sintax)
@@ -194,7 +194,7 @@ async def add_tournament_swiss(ctx, *, params = None):
 async def add_tournament_arena(ctx, *, params = None):
     if is_user_has_permission_to_create_tournaments(ctx.author.roles):
         sintax = 'Sintaxe:\n.adicionar-torneio-arena <nome da lista (p1, p2 ... pn)>, <título>, <descrição>, <tempo relógio (em minutos)>, '\
-            '<incremento (em segundos)>, <duração (em minutos)>, <hora (0..24)>, <minutos (0..60)>'
+            '<incremento (em segundos)>, <duração (em minutos)>, <hora (0..23)>, <minutos (0..60)>'
         try:
             if params == None:
                 embed_info = get_embed_info(sintax)
