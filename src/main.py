@@ -152,6 +152,108 @@ async def tournament_list_p4(ctx, *, extra_message = None):
 async def tournament_list_p5(ctx, *, extra_message = None):
     await create_tournament(ctx, Tournament.Type.P5, extra_message)
 
+@bot.command(name= "torneio")
+async def create_daily_tournament_list(ctx, *, params = None):
+    if is_user_has_permission_to_create_tournaments(ctx.author.roles):
+        sintax = 'Sintaxe:\n.torneio <nome da lista (p1, p2 ... pn)>, <Recado extra (se houver)>'
+        try:
+            if params == None:
+                embed_info = get_embed_info(sintax)
+                await ctx.send(embed= embed_info)
+                return    
+            response_message = create_tournament_list(params)
+            await send_bot_simple_text_answer(ctx, response_message)
+        except Exception as errh:
+            print(errh)
+            embed_error = get_embed_error(sintax)
+            await ctx.send(embed= embed_error)
+        return
+    await send_no_permission_embed(ctx)
+
+@bot.command(name= "adicionar-torneio-swiss")
+async def add_tournament_swiss(ctx, *, params = None):
+    if is_user_has_permission_to_create_tournaments(ctx.author.roles):
+        sintax = 'Sintaxe:\n.adicionar-torneio-swiss <nome da lista (p1, p2 ... pn)>, <título>, <descrição>, '\
+            '<tempo relógio (em minutos)>, <incremento (em segundos)>, <nº de rodadas>, <intervalo entre rodadas (em segundos)>, '\
+            '<hora (0..23)>, <minutos (0..60)>'
+        try:
+            if params == None:
+                embed_info = get_embed_info(sintax)
+                await ctx.send(embed= embed_info)
+                return    
+            response_embed = add_swis_tournament_to_list_with_params(params)
+            await ctx.send(embed= response_embed)
+        except Exception as errh:
+            print(errh)
+            embed_error = get_embed_error(sintax)
+            await ctx.send(embed= embed_error)
+        return
+    await send_no_permission_embed(ctx)
+
+@bot.command(name= "adicionar-torneio-arena")
+async def add_tournament_arena(ctx, *, params = None):
+    if is_user_has_permission_to_create_tournaments(ctx.author.roles):
+        sintax = 'Sintaxe:\n.adicionar-torneio-arena <nome da lista (p1, p2 ... pn)>, <título>, <descrição>, <tempo relógio (em minutos)>, '\
+            '<incremento (em segundos)>, <duração (em minutos)>, <hora (0..23)>, <minutos (0..60)>'
+        try:
+            if params == None:
+                embed_info = get_embed_info(sintax)
+                await ctx.send(embed= embed_info)
+                return    
+            response_embed = add_arena_tournament_to_list_with_params(params)
+            await ctx.send(embed= response_embed)
+        except Exception as errh:
+            print(errh)
+            embed_error = get_embed_error(sintax)
+            await ctx.send(embed= embed_error)
+        return
+    await send_no_permission_embed(ctx)
+
+@bot.command(name= "listar-torneio")
+async def list_tournament(ctx, *, list_name = None):
+    sintax = "Sintaxe:\n.listar-torneio <nome da lista (p1, p2 ... pn)>"
+    try:
+        if list_name == None:
+            embed_info = get_embed_info(sintax)
+            await ctx.send(embed= embed_info)
+            return    
+        response_embed = get_tournament_list(list_name.strip())
+        await ctx.send(embed= response_embed)
+    except Exception as errh:
+        print(errh)
+        embed_error = get_embed_error(sintax)
+        await ctx.send(embed= embed_error)
+
+@bot.command(name= "remover-torneio")
+async def remove_tournament(ctx, *, params = None):
+    sintax = "Sintaxe:\n.remover-torneio <nome da lista (p1, p2 ... pn)>, <título do torneio (exatamente igual ao torneio inserido)>"
+    try:
+        if params == None:
+            embed_info = get_embed_info(sintax)
+            await ctx.send(embed= embed_info)
+            return    
+        response_embed = remove_tournament_by_title(params, sintax)
+        await ctx.send(embed= response_embed)
+    except Exception as errh:
+        print(errh)
+        embed_error = get_embed_error(sintax)
+        await ctx.send(embed= embed_error)
+
+@bot.command(name= "remover-lista-torneio")
+async def remove_all_tournaments_by_list(ctx, *, list_name = None):
+    sintax = "Sintaxe:\n.remover-lista-torneio <nome da lista (p1, p2 ... pn)>"
+    try:
+        if list_name == None:
+            embed_info = get_embed_info(sintax)
+            await ctx.send(embed= embed_info)
+            return    
+        response_embed = remove_tournament_by_list_name(list_name, sintax)
+        await ctx.send(embed= response_embed)
+    except Exception as errh:
+        print(errh)
+        embed_error = get_embed_error(sintax)
+        await ctx.send(embed= embed_error)
+
 async def create_tournament(ctx, type: Tournament.Type, extra_message = None):
     if is_user_has_permission_to_create_tournaments(ctx.author.roles):
         await ctx.send("Criação de vários Torneios é um pouco demorada.\nFavor aguardar.\n\n")
@@ -172,7 +274,7 @@ async def send_bot_simple_text_answer(ctx, text):
         await ctx.send("O resultado é muito grande. Tive que gerar um arquivo:", file=discord.File(file, large_file_name))
 
 async def send_no_permission_embed(ctx):
-    embed_error = discord.Embed(title="Sem permissão", description="Você não pode executar este comando.\nPara criação de torneios é necessário ter o cargo de Administrador.\n\n", color= discord.Color.red())
+    embed_error = discord.Embed(title="Sem permissão", description="Você não pode executar este comando.\nPara criação de torneios é necessário ter o cargo de **Administrador**.\n\n", color= discord.Color.red())
     await ctx.send(embed= embed_error)
 
 def get_embed_info(text): 

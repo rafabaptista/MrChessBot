@@ -1,3 +1,13 @@
+**Version 2.1.1**
+---
+* \[Fix\] Trick for midnight hours
+
+**Version 2.1.0**
+---
+* \[New\] Support MongoDB
+* \[New\] New way to create tournaments integrated with DB
+* \[New\] CRUD for tournaments
+
 **Version 2.0.3**
 ---
 * \[New\] Add New tournament list -> .torneio-p5
@@ -21,5 +31,5 @@
 **Version 1.3.2**
 ---
 * \[New\] Tournament Creation Support -> .swiss / .arena
-* `.swiss <title>, <description (can be a .jpg image url)>, <clock(in minutes)>, <increment(in seconds)>, <rounds>, <interval(in seconds)>, <hour(default 0-24 hours)>, <minutes(default 0-60 minutes)>` → create Swiss tournament based
-* `.arena <title>, <description(can be a .jpg image url)>, <clock(in minutes)>, <increment(in seconds)>, <duration (in minutes)>, <hour(default 0-24 hours)>, <minutes(default 0-60 minutes)>` → create Swiss tournament
+* `.swiss <title>, <description (can be a .jpg image url)>, <clock(in minutes)>, <increment(in seconds)>, <rounds>, <interval(in seconds)>, <hour(default 0-23 hours)>, <minutes(default 0-60 minutes)>` → create Swiss tournament based
+* `.arena <title>, <description(can be a .jpg image url)>, <clock(in minutes)>, <increment(in seconds)>, <duration (in minutes)>, <hour(default 0-23 hours)>, <minutes(default 0-60 minutes)>` → create Swiss tournament

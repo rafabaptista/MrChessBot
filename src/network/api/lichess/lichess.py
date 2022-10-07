@@ -3,7 +3,7 @@ import requests
 from model.arena import Arena
 from model.swiss import Swiss
 from util.constants import *
-from api.lichess.http import *
+from network.api.lichess.http import *
 from util.string_helper import remove_quote
 from util.string_helper import remove_url_scheme
 from config.strings import text_match_not_found

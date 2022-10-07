@@ -17,3 +17,7 @@ bot_name_variant_7 = "@mrChessBOT"
 bot_team_id = "cxgr"
 #bot_team_id = "ccmh"
 administrators_role = "Administradores"
+
+##Database##
+db_client = os.environ['mrchessdbclient']
+db_name = os.environ['mrchessdbname']
