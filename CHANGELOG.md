@@ -1,3 +1,8 @@
+**Version 2.1.2**
+---
+* \[Update\] Change message for failure tournament creation
+* \[Fix\] Remove special characters that doesn`t work in Lichess Messages
+
 **Version 2.1.1**
 ---
 * \[Fix\] Trick for midnight hours
