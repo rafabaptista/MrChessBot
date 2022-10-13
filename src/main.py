@@ -161,7 +161,7 @@ async def create_daily_tournament_list(ctx, *, params = None):
                 embed_info = get_embed_info(sintax)
                 await ctx.send(embed= embed_info)
                 return    
-            response_message = create_tournament_list(params)
+            response_message = create_tournament_list_from_db(params)
             await send_bot_simple_text_answer(ctx, response_message)
         except Exception as errh:
             print(errh)

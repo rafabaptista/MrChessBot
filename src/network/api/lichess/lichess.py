@@ -132,7 +132,8 @@ def send_message_to_team(message):
         response.raise_for_status()
         print("Response Status Code: " + str(response.status_code))
         json_response = response.json()
-        print(json_response)
+        print("Response from messageToAll:")
+        print(response)
         if response.status_code == 200:
             return(json_response)
         else:

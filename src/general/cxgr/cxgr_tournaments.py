@@ -28,7 +28,7 @@ def create_tournament_arena(arena: Arena):
     if response != None:
         tournament_id = response["id"]
         return(f"[Arena] {arena.title} ({arena.clock}+{arena.increment}) - {duration_hours}h - {format(tournament_hour, '02d')}:{format(arena.minute, '02d')}:\n{arena_tournament_link}{tournament_id}")
-    return(f"Não foi possível criar o torneio ***{arena.title}***. Desculpe =/")
+    return(f"Não foi possível criar o torneio {arena.title} hoje. Desculpe =/")
 
 def create_arena_tournament_with_params(tournament_params):
     params = tournament_params.split(',')
@@ -102,7 +102,7 @@ def create_tournament_swiss(swiss: Swiss):
         if (response["status"] == "created"):
             tournament_id = response["id"]
             return(f"[Suiço] {swiss.title} ({clock_time}+{swiss.increment}) - {swiss.rounds} RD - {format(tournament_hour, '02d')}:{format(swiss.minute, '02d')}:\n{swiss_tournament_link}{tournament_id}")
-    return(f"Não foi possível criar o torneio ***{swiss.title}***. Desculpe =/")
+    return(f"Não foi possível criar o torneio {swiss.title} hoje. Desculpe =/")
 
 def create_swis_tournament_with_params(tournament_params):
     params = tournament_params.split(',')
@@ -331,7 +331,7 @@ def get_tournament_list(list_name):
         response_message += f"\n\n"
     return discord.Embed(title=f"Torneios Diários - {list_name}", description=response_message, color= discord.Color.green())
 
-def create_tournament_list(tournament_params):
+def create_tournament_list_from_db(tournament_params):
     if ("," in tournament_params):
         params = tournament_params.split(",")
         size_list_params = len(params)
@@ -349,7 +349,7 @@ def create_tournament_list(tournament_params):
     print(response)
     local_dt = datetime.now()
     formatted_date = f"{local_dt.day}/{local_dt.month}/{local_dt.year}"
-    message_to_send = f"Bom dia, CXGR ♟️\nOs torneios de hoje (__**{formatted_date}**__) são:\n\n"
+    message_to_send = f"Bom dia, CXGR ♟️\nOs torneios de hoje ({formatted_date}) são:\n\n"
     for tournament in response:
         if (tournament["type"] == "S"):
             swiss = map_swiss_tournament(tournament)
@@ -360,9 +360,9 @@ def create_tournament_list(tournament_params):
     if (extra_message != None):
         message_to_send += f"{extra_message.strip()}\n\n"
     message_to_send += "Obrigado e até a próxima!   o/ \n\n🏁🏁🏁♟️🐎🐎🐎♟️🏁🏁🏁"
-    response = send_message_to_team(message_to_send)
-    if response != None:
-        if (response["ok"] == True):
+    response_message = send_message_to_team(message_to_send)
+    if response_message != None:
+        if (response_message["ok"] == True):
             return(message_to_send)
     return(f"Ocorreu um erro ao enviar mensagem para os membros da Equipe no Lichess. Contudo, os torneios foram criados.\n\n{message_to_send}")
 
