@@ -15,7 +15,7 @@ bot_name_variant_5 = "@mrChessbot"
 bot_name_variant_6 = "@mrChessBot"
 bot_name_variant_7 = "@mrChessBOT"
 bot_team_id = "cxgr"
-#bot_team_id = "ccmh"
+#bot_team_id = "ccmh" #for test
 administrators_role = "Administradores"
 
 ##Database##

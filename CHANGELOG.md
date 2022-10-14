@@ -1,3 +1,7 @@
+**Version 2.1.3**
+---
+* \[Update\] Allow comma(,) in extra messages for tournament list creation
+
 **Version 2.1.2**
 ---
 * \[Update\] Change message for failure tournament creation
