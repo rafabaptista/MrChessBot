@@ -334,12 +334,8 @@ def get_tournament_list(list_name):
 def create_tournament_list_from_db(tournament_params):
     if ("," in tournament_params):
         params = tournament_params.split(",")
-        size_list_params = len(params)
-        if (size_list_params == 2):
-            list_name = params[0].strip()
-            extra_message = params[1]
-        else:
-            return(f"Erro ao executar o comando. Confira a sintaxe e tente novamente mais tarde\n\nSintaxe:\n.torneio <nome da lista (p1, p2 ... pn)>, <Recado extra (se houver)>")
+        list_name = params[0].strip()
+        extra_message = tournament_params.replace(f"{list_name}", "").replace(",", "", 1)
     else:
         list_name = tournament_params.strip()
         extra_message = None
