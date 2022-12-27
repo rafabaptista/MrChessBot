@@ -10,12 +10,14 @@ from util.constants import *
 from config.commands import *
 from general.cxgr.cxgr_tournaments import *
 from config.environment_keys import *
+from network.api.whatsapp.whatsapp import send_group_mesage
 
 intents = discord.Intents.all()
 intents.members = True
 intents.typing = True
 intents.presences = True
 
+client = discord.Client(intents=discord.Intents.default())
 bot = commands.Bot(command_prefix= '.', intents= intents, case_insensitive= True)
 
 @bot.event
@@ -162,6 +164,8 @@ async def create_daily_tournament_list(ctx, *, params = None):
                 await ctx.send(embed= embed_info)
                 return    
             response_message = create_tournament_list_from_db(params)
+            send_group_mesage(response_message)
+            await send_message_tournaments_channel(response_message)
             await send_bot_simple_text_answer(ctx, response_message)
         except Exception as errh:
             print(errh)
@@ -169,6 +173,12 @@ async def create_daily_tournament_list(ctx, *, params = None):
             await ctx.send(embed= embed_error)
         return
     await send_no_permission_embed(ctx)
+
+@bot.command(name= "whatsapp-teste")
+async def whatsapp_teste(ctx, *, params = None):
+    send_group_mesage("Teste de mensagem")
+    await send_message_tournaments_channel("Teste de mensagem")
+    await ctx.send("Verificar")
 
 @bot.command(name= "adicionar-torneio-swiss")
 async def add_tournament_swiss(ctx, *, params = None):
@@ -276,6 +286,20 @@ async def send_bot_simple_text_answer(ctx, text):
 async def send_no_permission_embed(ctx):
     embed_error = discord.Embed(title="Sem permissão", description="Você não pode executar este comando.\nPara criação de torneios é necessário ter o cargo de **Administrador**.\n\n", color= discord.Color.red())
     await ctx.send(embed= embed_error)
+
+async def send_message_tournaments_channel(text):
+    channel_id = int(cxgr_tournaments_channel_id)
+    channel = bot.get_channel(channel_id)
+    length = len(text)
+    if length < maximum_lenght_characters:
+      await channel.send(text)
+    else:
+      file = open(large_file_name,"w+")
+      file.write(text)
+      file.close()
+      with open(large_file_name, "rb") as file:
+        await channel.send("O resultado é muito grande. Tive que gerar um arquivo:", file=discord.File(file, large_file_name))
+    
 
 def get_embed_info(text): 
     return discord.Embed(title=":information_source: \n\n", description=text, color= discord.Color.blue())

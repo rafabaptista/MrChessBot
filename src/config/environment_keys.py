@@ -21,3 +21,9 @@ administrators_role = "Administradores"
 ##Database##
 db_client = os.environ['mrchessdbclient']
 db_name = os.environ['mrchessdbname']
+
+##WhatsApp##
+ultra_message_instance = os.environ['ultramessageinstance'] #The Ultra message Instance
+ultra_message_token = os.environ['ultramessagetoken'] #The Ultra message Token
+whatsapp_group_id = os.environ['whatsappgroupid'] #WhatsApp Group ID from the group to send the message
+cxgr_tournaments_channel_id = os.environ['cxgrtournamentchannelid'] #Discord specific tournament channel ID
