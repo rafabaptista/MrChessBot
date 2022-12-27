@@ -1,3 +1,8 @@
+**Version 2.2.0**
+---
+* \[New\] Send message to WhatsApp group
+* \[New\] Send message to Tournament Discord Channel
+
 **Version 2.1.3**
 ---
 * \[Update\] Allow comma(,) in extra messages for tournament list creation
