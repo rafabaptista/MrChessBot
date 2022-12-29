@@ -1,3 +1,7 @@
+**Version 2.3.0**
+---
+* \[New\] Challenge MrChessTheBot Lichess BOT -> .bot
+
 **Version 2.2.0**
 ---
 * \[New\] Send message to WhatsApp group

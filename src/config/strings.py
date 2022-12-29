@@ -28,6 +28,7 @@ bot_helper = 'Me chamou??\n\nPara falar comigo você precisa me enviar um comand
     '• .confronto <usuario Lichess 1>, <usuario Lichess 2> -> Mostra o placar de confrontos entre o 2 jogadores.\n'\
     '• .pgn <link da Partida> -> Ver PGN de uma partida.\n'\
     '• .gif <link da Partida> -> Ver GIF de uma partida.\n'\
+    '• .bot -> Desafiar MrChessTheBot para uma partida.\n'\
     '• /puzzle -> Solicitar Puzzle para ser resolvido pelo grupo\n'\
     '• respostaPuzzle -> Responder Puzzle enviado anteriormente (Por exemplo: Nf3)\n\n'\
     'Observação: Por enquanto eu só sou integrado na plataforma **Lichess**. '\

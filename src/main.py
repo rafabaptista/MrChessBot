@@ -264,6 +264,11 @@ async def remove_all_tournaments_by_list(ctx, *, list_name = None):
         embed_error = get_embed_error(sintax)
         await ctx.send(embed= embed_error)
 
+@bot.command(name="bot")
+async def challenge_bot(ctx, *, params=None):
+    answer = 'Para desafiar o BOT, basta clicar no link abaixo:\nhttps://lichess.org/?user=MrChessTheBot#friend'
+    await send_bot_simple_text_answer(ctx, answer)
+
 async def create_tournament(ctx, type: Tournament.Type, extra_message = None):
     if is_user_has_permission_to_create_tournaments(ctx.author.roles):
         await ctx.send("Criação de vários Torneios é um pouco demorada.\nFavor aguardar.\n\n")
