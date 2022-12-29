@@ -23,6 +23,7 @@ Mention the BOT in Discord along with the command
 * `.confronto <user_name_1>, <user_name_2>` → show the statistics from the matches between two players.
 * `.swiss <title>, <description>, <clock>, <increment>, <rounds>, <interval>, <hour>, <minutes>` → create Swiss tournament based
 * `.arena <title>, <description>, <clock>, <increment>, <duration>, <hour>, <minutes>` → create Swiss tournament
+* `.bot` → Receives a link to challenge MrChessTheBot Lichess BOT
 
 ## Help / Contact / Issues / Requests / Collaboration
 Questions, issues and requests can be posted as an issue in this repository or send in the Discord below:
