@@ -164,7 +164,7 @@ async def create_daily_tournament_list(ctx, *, params = None):
                 await ctx.send(embed= embed_info)
                 return    
             response_message = create_tournament_list_from_db(params)
-            #send_whatsapp_group_mesage(response_message) #APi Ultra Message not working
+            #send_whatsapp_group_mesage(response_message) #API Ultra Message not working
             await send_message_tournaments_channel(response_message)
             await send_bot_simple_text_answer(ctx, response_message)
         except Exception as errh:
