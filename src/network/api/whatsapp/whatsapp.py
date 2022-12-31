@@ -2,7 +2,7 @@ import requests
 from network.api.whatsapp.http import http_get_send_message_group, json_header
 from config.environment_keys import whatsapp_group_id, ultra_message_token
 
-def send_group_mesage(message):
+def send_whatsapp_group_mesage(message):
     requestUrl = f"{http_get_send_message_group}"
     headers = json_header
     params = {

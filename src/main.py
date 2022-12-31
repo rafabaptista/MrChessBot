@@ -10,7 +10,7 @@ from util.constants import *
 from config.commands import *
 from general.cxgr.cxgr_tournaments import *
 from config.environment_keys import *
-from network.api.whatsapp.whatsapp import send_group_mesage
+from network.api.whatsapp.whatsapp import send_whatsapp_group_mesage
 
 intents = discord.Intents.all()
 intents.members = True
@@ -106,7 +106,7 @@ async def profile(ctx, profile = None):
 
 @bot.command(name= "swiss")
 async def custom_tournament_swiss(ctx, *, params = None):
-    sintax = "Sintaxe:\n.swiss <título>, <descrição>, <relógio>, <incremento>, <nº de rodadas>, <intervalo entre rodadas>, <hora>, <minutos>"
+    sintax = "Sintaxe:\n.swiss <título>, <descrição>, <relógio>, <incremento>, <nº de rodadas>, <intervalo entre rodadas (em segundos)>, <hora (0..23)>, <minutos (0..59)>"
     try:
         if params == None:
             embed_info = get_embed_info(sintax)
@@ -121,7 +121,7 @@ async def custom_tournament_swiss(ctx, *, params = None):
 
 @bot.command(name= "arena")
 async def custom_tournament_arena(ctx, *, params = None):
-    sintax = "Sintaxe:\n.arena <título>, <descrição>, <tempo relógio>, <incremento>, <duração>, <hora>, <minutos>"
+    sintax = "Sintaxe:\n.arena <título>, <descrição>, <relógio>, <incremento>, <duração (em minutos)>, <hora (0..23)>, <minutos (0..59)>"
     try:
         if params == None:
             embed_info = get_embed_info(sintax)
@@ -164,7 +164,7 @@ async def create_daily_tournament_list(ctx, *, params = None):
                 await ctx.send(embed= embed_info)
                 return    
             response_message = create_tournament_list_from_db(params)
-            send_group_mesage(response_message)
+            #send_whatsapp_group_mesage(response_message) #API Ultra Message not working
             await send_message_tournaments_channel(response_message)
             await send_bot_simple_text_answer(ctx, response_message)
         except Exception as errh:
@@ -176,7 +176,7 @@ async def create_daily_tournament_list(ctx, *, params = None):
 
 @bot.command(name= "whatsapp-teste")
 async def whatsapp_teste(ctx, *, params = None):
-    send_group_mesage("Teste de mensagem")
+    send_whatsapp_group_mesage("Teste de mensagem")
     await send_message_tournaments_channel("Teste de mensagem")
     await ctx.send("Verificar")
 
@@ -204,7 +204,7 @@ async def add_tournament_swiss(ctx, *, params = None):
 async def add_tournament_arena(ctx, *, params = None):
     if is_user_has_permission_to_create_tournaments(ctx.author.roles):
         sintax = 'Sintaxe:\n.adicionar-torneio-arena <nome da lista (p1, p2 ... pn)>, <título>, <descrição>, <tempo relógio (em minutos)>, '\
-            '<incremento (em segundos)>, <duração (em minutos)>, <hora (0..23)>, <minutos (0..60)>'
+            '<incremento (em segundos)>, <duração (em minutos)>, <hora (0..23)>, <minutos (0..59)>'
         try:
             if params == None:
                 embed_info = get_embed_info(sintax)
@@ -266,7 +266,7 @@ async def remove_all_tournaments_by_list(ctx, *, list_name = None):
 
 @bot.command(name="bot")
 async def challenge_bot(ctx, *, params=None):
-    answer = 'Para desafiar o BOT, basta clicar no link abaixo:\nhttps://lichess.org/?user=MrChessTheBot#friend'
+    answer = 'Para me desafiar no Lichess, basta clicar no link abaixo:\nhttps://lichess.org/?user=MrChessTheBot#friend'
     await send_bot_simple_text_answer(ctx, answer)
 
 async def create_tournament(ctx, type: Tournament.Type, extra_message = None):
@@ -289,7 +289,10 @@ async def send_bot_simple_text_answer(ctx, text):
         await ctx.send("O resultado é muito grande. Tive que gerar um arquivo:", file=discord.File(file, large_file_name))
 
 async def send_no_permission_embed(ctx):
-    embed_error = discord.Embed(title="Sem permissão", description="Você não pode executar este comando.\nPara criação de torneios é necessário ter o cargo de **Administrador**.\n\n", color= discord.Color.red())
+    embed_error = discord.Embed(
+        title="Sem permissão", 
+        description="Você não pode executar este comando.\nPara criação de torneios é necessário ter o cargo de **Administrador**.\n\n", 
+        color= discord.Color.red())
     await ctx.send(embed= embed_error)
 
 async def send_message_tournaments_channel(text):

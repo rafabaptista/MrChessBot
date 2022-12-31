@@ -92,7 +92,11 @@ def create_tournament_swiss(swiss: Swiss):
     local_dt = datetime.now()
     tournament_hour = fix_hour(swiss.hour)
     if (tournament_hour >= 0 and tournament_hour <= 2):
-        new_date = datetime(local_dt.year, local_dt.month, local_dt.day + 1, tournament_hour,swiss. minute, 0, 0) #Brazil's zone [Sao Paulo]
+        #December last day work arround to set Jannuary 1
+        if (local_dt.month == 12 and local_dt.day == 31): 
+            new_date = datetime(local_dt.year + 1, 1, 1, tournament_hour,swiss. minute, 0, 0) #Jannuary 1 from the next year
+        else:    
+            new_date = datetime(local_dt.year, local_dt.month, local_dt.day + 1, tournament_hour,swiss. minute, 0, 0) #Brazil's zone [Sao Paulo]
     else:
         new_date = datetime(local_dt.year, local_dt.month, local_dt.day, tournament_hour, swiss.minute, 0, 0) #Brazil's zone [Sao Paulo]
     time_converted = new_date.strftime('%s')

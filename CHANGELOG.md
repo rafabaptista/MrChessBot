@@ -1,3 +1,8 @@
+**Version 2.3.1**
+---
+* \[Fix\] Fix tournament creation for the last day of the year
+* \[Remove\] Remove WhatsApp send message support (cost matters)
+
 **Version 2.3.0**
 ---
 * \[New\] Challenge MrChessTheBot Lichess BOT -> .bot
