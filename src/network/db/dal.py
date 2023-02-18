@@ -1,9 +1,22 @@
 from multiprocessing.heap import Arena
 from urllib import response
-from pymongo import MongoClient
+from pymongo import MongoClient, errors
 from model.swiss import Swiss
 from model.arena import Arena
 from config.environment_keys import db_client, db_name
+
+def check_db_connection():
+    try:
+        client = MongoClient(db_client)
+        database = client[db_name]
+        collection = database['keep_alive']
+        query = { "is_alive": "1" }
+        collection.find(query)
+        client.close()
+        return(True)
+    except MongoClient.err as err:
+        print(err)
+        return(False)
 
 def insert_new_swiss_tournament(swiss: Swiss, pattern_name):
     new_data = {

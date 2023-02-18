@@ -1,16 +1,13 @@
 import discord
 from discord.ext import commands
 from config.environment_keys import token
-from model.tournament import Tournament
 from util.string_helper import is_from_lichess_domain
 from version import __version__
-from general.cxgr.cxgr_helper import is_user_has_permission_to_create_tournaments
+from general.team.team_helper import is_user_has_permission_to_create_tournaments
 from general.answer import *
 from util.constants import *
-from config.commands import *
-from general.cxgr.cxgr_tournaments import *
+from general.team.team_tournaments import *
 from config.environment_keys import *
-from network.api.whatsapp.whatsapp import send_whatsapp_group_mesage
 
 intents = discord.Intents.all()
 intents.members = True
@@ -23,6 +20,7 @@ bot = commands.Bot(command_prefix= '.', intents= intents, case_insensitive= True
 @bot.event
 async def on_ready(): 
   print(f"{bot.user} Logged in | Version: {__version__}")
+  print(check_database())
 
 @bot.command(name= "ajuda")
 async def help(ctx):
@@ -134,26 +132,6 @@ async def custom_tournament_arena(ctx, *, params = None):
         embed_error = get_embed_error(sintax)
         await ctx.send(embed= embed_error)
 
-@bot.command(name= "torneio-p1")
-async def tournament_list_p1(ctx, *, extra_message = None):
-    await create_tournament(ctx, Tournament.Type.P1, extra_message)
-
-@bot.command(name= "torneio-p2")
-async def tournament_list_p2(ctx, *, extra_message = None):
-    await create_tournament(ctx, Tournament.Type.P2, extra_message)
-
-@bot.command(name= "torneio-p3")
-async def tournament_list_p3(ctx, *, extra_message = None):
-    await create_tournament(ctx, Tournament.Type.P3, extra_message)
-
-@bot.command(name= "torneio-p4")
-async def tournament_list_p4(ctx, *, extra_message = None):
-    await create_tournament(ctx, Tournament.Type.P4, extra_message)
-
-@bot.command(name= "torneio-p5")
-async def tournament_list_p5(ctx, *, extra_message = None):
-    await create_tournament(ctx, Tournament.Type.P5, extra_message)
-
 @bot.command(name= "torneio")
 async def create_daily_tournament_list(ctx, *, params = None):
     if is_user_has_permission_to_create_tournaments(ctx.author.roles):
@@ -164,7 +142,6 @@ async def create_daily_tournament_list(ctx, *, params = None):
                 await ctx.send(embed= embed_info)
                 return    
             response_message = create_tournament_list_from_db(params)
-            #send_whatsapp_group_mesage(response_message) #API Ultra Message not working
             await send_message_tournaments_channel(response_message)
             await send_bot_simple_text_answer(ctx, response_message)
         except Exception as errh:
@@ -173,12 +150,6 @@ async def create_daily_tournament_list(ctx, *, params = None):
             await ctx.send(embed= embed_error)
         return
     await send_no_permission_embed(ctx)
-
-@bot.command(name= "whatsapp-teste")
-async def whatsapp_teste(ctx, *, params = None):
-    send_whatsapp_group_mesage("Teste de mensagem")
-    await send_message_tournaments_channel("Teste de mensagem")
-    await ctx.send("Verificar")
 
 @bot.command(name= "adicionar-torneio-swiss")
 async def add_tournament_swiss(ctx, *, params = None):
@@ -269,14 +240,6 @@ async def challenge_bot(ctx, *, params=None):
     answer = 'Para me desafiar no Lichess, basta clicar no link abaixo:\nhttps://lichess.org/?user=MrChessTheBot#friend'
     await send_bot_simple_text_answer(ctx, answer)
 
-async def create_tournament(ctx, type: Tournament.Type, extra_message = None):
-    if is_user_has_permission_to_create_tournaments(ctx.author.roles):
-        await ctx.send("Criação de vários Torneios é um pouco demorada.\nFavor aguardar.\n\n")
-        response_message = create_tournament_list(type, extra_message)
-        await send_bot_simple_text_answer(ctx, response_message)
-        return
-    await send_no_permission_embed(ctx)
-
 async def send_bot_simple_text_answer(ctx, text):
     length = len(text)
     if length < maximum_lenght_characters:
@@ -296,7 +259,7 @@ async def send_no_permission_embed(ctx):
     await ctx.send(embed= embed_error)
 
 async def send_message_tournaments_channel(text):
-    channel_id = int(cxgr_tournaments_channel_id)
+    channel_id = int(team_tournaments_channel_id)
     channel = bot.get_channel(channel_id)
     length = len(text)
     if length < maximum_lenght_characters:
@@ -313,6 +276,6 @@ def get_embed_info(text):
     return discord.Embed(title=":information_source: \n\n", description=text, color= discord.Color.blue())
 
 def get_embed_error(sintax): 
-    return discord.Embed(title=":exclamation: \n\nErro ao executar comando", description=f"Favor verificar o comando digitado.\n{sintax}", color= discord.Color.red())
+    return discord.Embed(title=":exclamation: \n\nErro ao executar comando", description=f"Tente novamente mais tarde ou verifique o comando digitado:\n{sintax}", color= discord.Color.red())
 
 bot.run(token)
