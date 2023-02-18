@@ -1,3 +1,10 @@
+**Version 2.4.0**
+---
+* \[New\] Support Team Name and Team ID by config vars
+* \[Fix\] Fix tournament creation in the las days of the month
+* \[Remove\] Remove WhatsApp send message support (cost matters)
+* \[Remove\] Remove unnesed code and classes
+
 **Version 2.3.1**
 ---
 * \[Fix\] Fix tournament creation for the last day of the year

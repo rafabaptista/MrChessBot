@@ -3,3 +3,4 @@ discord
 flask
 pytz
 pymongo
+python-dateutil
