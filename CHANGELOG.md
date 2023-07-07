@@ -1,7 +1,12 @@
+**Version 2.4.1**
+---
+* \[Fix\] Fix Arena tournament creation due to Lichess Api POST changes
+* \[Fix\] Fix Message to All from Teams due to Lichess Api POST changes
+
 **Version 2.4.0**
 ---
 * \[New\] Support Team Name and Team ID by config vars
-* \[Fix\] Fix tournament creation in the las days of the month
+* \[Fix\] Fix tournament creation in the last days of the month
 * \[Remove\] Remove WhatsApp send message support (cost matters)
 * \[Remove\] Remove unnesed code and classes
 

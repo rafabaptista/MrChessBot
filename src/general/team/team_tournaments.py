@@ -19,10 +19,9 @@ def create_tournament_arena(arena: Arena):
     duration_hours = str(round(arena.duration/60, 2)).replace('.0', '')
     tournament_hour = fix_hour(arena.hour)
     arena.starts_at = get_tournament_start_time(arena)
-    response = create_arena_tournament(arena)
-    if response != None:
-        tournament_id = response["id"]
-        return(f"[Arena] {arena.title} ({arena.clock}+{arena.increment}) - {duration_hours}h - {format(tournament_hour, '02d')}:{format(arena.minute, '02d')}:\n{arena_tournament_link}{tournament_id}")
+    arena_url = create_arena_tournament(arena)
+    if arena_url != None:
+        return(f"[Arena] {arena.title} ({arena.clock}+{arena.increment}) - {duration_hours}h - {format(tournament_hour, '02d')}:{format(arena.minute, '02d')}:\n{arena_url}")
     return(f"Não foi possível criar o torneio {arena.title} hoje. Desculpe =/")
 
 def create_arena_tournament_with_params(tournament_params):
@@ -97,7 +96,7 @@ def get_tournament_start_time(tournament: Tournament):
     local_dt = datetime.now()
     tournament_hour = fix_hour(tournament.hour)
     if (tournament_hour >= 0 and tournament_hour <= 2):
-        if (local_dt.month == 12 and local_dt.day == 31): #las day of the year
+        if (local_dt.month == 12 and local_dt.day == 31): #last day of the year
             new_date = datetime(local_dt.year + 1, 1, 1, tournament_hour,tournament. minute, 0, 0) #Jannuary 1 from the next year
         else:
             last_date_of_month = local_dt + relativedelta(day=31)
@@ -107,8 +106,8 @@ def get_tournament_start_time(tournament: Tournament):
                 new_date = datetime(local_dt.year, local_dt.month, local_dt.day + 1, tournament_hour,tournament. minute, 0, 0) #Brazil's zone [Sao Paulo]
     else:
         new_date = datetime(local_dt.year, local_dt.month, local_dt.day, tournament_hour, tournament.minute, 0, 0) #Brazil's zone [Sao Paulo]
-    time_converted = new_date.strftime('%s')
-    return int(float(time_converted)*1000)
+    start_time_miliseconds = int(new_date.timestamp() * 1000)
+    return start_time_miliseconds
 
 def create_swis_tournament_with_params(tournament_params):
     params = tournament_params.split(',')
@@ -224,9 +223,8 @@ def create_tournament_list_from_db(tournament_params):
         message_to_send += f"{extra_message.strip()}\n\n"
     message_to_send += "Obrigado e até a próxima!   o/ \n\n🏁🏁🏁♟️🐎🐎🐎♟️🏁🏁🏁"
     response_message = send_message_to_team(message_to_send)
-    if response_message != None:
-        if (response_message["ok"] == True):
-            return(message_to_send)
+    if response_message == "OK":
+        return(message_to_send)
     return(f"Ocorreu um erro ao enviar mensagem para os membros da Equipe no Lichess. Contudo, os torneios foram criados.\n\n{message_to_send}")
 
 def remove_tournament_by_title(tournament_params, sintax):

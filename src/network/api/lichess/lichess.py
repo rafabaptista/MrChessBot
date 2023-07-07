@@ -131,11 +131,8 @@ def send_message_to_team(message):
         response = requests.post(request_url, headers=headers, data=body, timeout=5)
         response.raise_for_status()
         print("Response Status Code: " + str(response.status_code))
-        json_response = response.json()
-        print("Response from messageToAll:")
-        print(response)
         if response.status_code == 200:
-            return(json_response)
+            return("OK")
         else:
             return(None)
     except requests.exceptions.HTTPError as errh:
@@ -166,10 +163,10 @@ def create_arena_tournament(arena: Arena):
         response = requests.post(request_url, headers=headers, data=body, timeout=5)
         response.raise_for_status()
         print("Response Status Code: " + str(response.status_code))
-        json_response = response.json()
-        print(json_response)
+        arena_url = response.url
+        print("Arena URL created: " + arena_url)
         if response.status_code == 200:
-            return(json_response)
+            return(arena_url)
         else:
             return(None)
     except requests.exceptions.HTTPError as errh:
