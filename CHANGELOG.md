@@ -1,3 +1,7 @@
+**Version 2.5.0**
+---
+* \[New\] English translation for daily tournaments message to all.
+
 **Version 2.4.1**
 ---
 * \[Fix\] Fix Arena tournament creation due to Lichess Api POST changes

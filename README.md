@@ -7,8 +7,6 @@
    
 A Discord BOT integrated with Lichess Platform
 
-[Click here to invite the bot to your server!](https://discord.com/api/oauth2/authorize?client_id=976038110540496976&permissions=277566692422&scope=bot)
-
 ## Description
 This bot integrates with the lichess.org chess website.
 

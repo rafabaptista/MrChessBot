@@ -15,14 +15,14 @@ time_interval_sleep = 1
 
 def create_tournament_arena(arena: Arena):
     arena.team_id = bot_team_id
-    local_dt = datetime.now()
     duration_hours = str(round(arena.duration/60, 2)).replace('.0', '')
     tournament_hour = fix_hour(arena.hour)
     arena.starts_at = get_tournament_start_time(arena)
     arena_url = create_arena_tournament(arena)
     if arena_url != None:
-        return(f"[Arena] {arena.title} ({arena.clock}+{arena.increment}) - {duration_hours}h - {format(tournament_hour, '02d')}:{format(arena.minute, '02d')}:\n{arena_url}")
-    return(f"Não foi possível criar o torneio {arena.title} hoje. Desculpe =/")
+        return(f"[Arena] {arena.title} ({arena.clock}+{arena.increment}) - {duration_hours}h - {format(tournament_hour, '02d')}:{format(arena.minute, '02d')} (GMT-3):\n{arena_url}")
+    error_return = f"Não foi possível criar o torneio {arena.title} hoje. Desculpe.\n(Sorry, it was not possible to create the tournament {arena.title} today.)"
+    return(error_return)
 
 def create_arena_tournament_with_params(tournament_params):
     params = tournament_params.split(',')
@@ -72,7 +72,7 @@ def add_arena_tournament_to_list_with_params(tournament_params):
         if (addition):
             duration_hours = str(round(arena.duration/60, 2)).replace('.0', '')
             response_message = f"\nO torneio foi adicionado com sucesso à lista ***{list_name}*** de Torneios Diários.\n\n"
-            response_message += f"• [Arena] {arena.title} ({arena.clock}+{arena.increment}) - {duration_hours}h - {format(arena.hour, '02d')}:{format(arena.minute, '02d')}"
+            response_message += f"• [Arena] {arena.title} ({arena.clock}+{arena.increment}) - {duration_hours}h - {format(arena.hour, '02d')}:{format(arena.minute, '02d')}(GMT-3)"
             if (arena.description != ""):
                 response_message += f" - {arena.description}"
             return discord.Embed(title=":white_check_mark:", description=response_message, color= discord.Color.green())
@@ -89,8 +89,8 @@ def create_tournament_swiss(swiss: Swiss):
     if response != None:
         if (response["status"] == "created"):
             tournament_id = response["id"]
-            return(f"[Suiço] {swiss.title} ({clock_time}+{swiss.increment}) - {swiss.rounds} RD - {format(tournament_hour, '02d')}:{format(swiss.minute, '02d')}:\n{swiss_tournament_link}{tournament_id}")
-    return(f"Não foi possível criar o torneio {swiss.title} hoje. Desculpe =/")
+            return(f"[Suiço (Swiss)] {swiss.title} ({clock_time}+{swiss.increment}) - {swiss.rounds} RD - {format(tournament_hour, '02d')}:{format(swiss.minute, '02d')} (GMT-3):\n{swiss_tournament_link}{tournament_id}")
+    return(f"Não foi possível criar o torneio {swiss.title} hoje. Desculpe.\n(Sorry. It was not possible to create the tournament {swiss.title} today.)")
 
 def get_tournament_start_time(tournament: Tournament):
     local_dt = datetime.now()
@@ -160,7 +160,7 @@ def add_swis_tournament_to_list_with_params(tournament_params):
         addition = insert_new_swiss_tournament(swiss, list_name)
         if (addition):
             response_message = f"\nO torneio foi adicionado com sucesso à lista ***{list_name}*** de Torneios Diários.\n\n"
-            response_message += f"• [Suiço] {swiss.title} ({swiss.clock}+{swiss.increment}) - {swiss.rounds} RD | {swiss.interval}s - {format(swiss.hour, '02d')}:{format(swiss.minute, '02d')}"
+            response_message += f"• [Suiço/Swiss] {swiss.title} ({swiss.clock}+{swiss.increment}) - {swiss.rounds} RD | {swiss.interval}s - {format(swiss.hour, '02d')}:{format(swiss.minute, '02d')} (GMT-3)"
             if (swiss.description != ""):
                 response_message += f" - {swiss.description}"
             return discord.Embed(title=":white_check_mark:", description=response_message, color= discord.Color.green())
@@ -186,12 +186,12 @@ def get_tournament_list(list_name):
             type_tournament = "Suiço"
             rounds = tournament["rounds"]
             interval = tournament["interval"]
-            response_message += f"• [{type_tournament}] {title} ({clock}+{increment}) - {rounds} RD | {interval}s - {format(hour, '02d')}:{format(minute, '02d')}"
+            response_message += f"• [{type_tournament}] {title} ({clock}+{increment}) - {rounds} RD | {interval}s - {format(hour, '02d')}:{format(minute, '02d')} (GMT-3)"
         else:
             type_tournament = "Arena"
             duration = tournament["duration"]
             duration_hours = str(round(duration/60, 2)).replace('.0', '')
-            response_message += f"• [{type_tournament}] {title} ({clock}+{increment}) - {duration_hours}h - {format(hour, '02d')}:{format(minute, '02d')}"
+            response_message += f"• [{type_tournament}] {title} ({clock}+{increment}) - {duration_hours}h - {format(hour, '02d')}:{format(minute, '02d')} (GMT-3)"
         if (description != ""):
             response_message += f" - {description}"
         response_message += f"\n\n"
@@ -211,7 +211,7 @@ def create_tournament_list_from_db(tournament_params):
     print(response)
     local_dt = datetime.now()
     formatted_date = f"{local_dt.day}/{local_dt.month}/{local_dt.year}"
-    message_to_send = f"Bom dia, {bot_team_name} ♟️\nOs torneios de hoje ({formatted_date}) são:\n\n"
+    message_to_send = f"Bom dia (Good morning), {bot_team_name} ♟️\n\nOs torneios de hoje ({formatted_date}) são:\n(The tournaments for today are:)\n\n"
     for tournament in response:
         if (tournament["type"] == "S"):
             swiss = map_swiss_tournament(tournament)
@@ -221,7 +221,7 @@ def create_tournament_list_from_db(tournament_params):
             message_to_send += f"{create_tournament_arena(arena)}\n\n"
     if (extra_message != None):
         message_to_send += f"{extra_message.strip()}\n\n"
-    message_to_send += "Obrigado e até a próxima!   o/ \n\n🏁🏁🏁♟️🐎🐎🐎♟️🏁🏁🏁"
+    message_to_send += "Obrigado e até a próxima! (Thank you and see you soon!)   o/ \n\n🏁🏁🏁♟️🐎🐎🐎♟️🏁🏁🏁"
     response_message = send_message_to_team(message_to_send)
     if response_message == "OK":
         return(message_to_send)
