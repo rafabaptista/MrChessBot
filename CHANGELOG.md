@@ -1,3 +1,8 @@
+**Version 2.5.1**
+---
+* \[New\] PR Template.
+* \[Edit\] Update Readme file.
+
 **Version 2.5.0**
 ---
 * \[New\] English translation for daily tournaments message to all.
