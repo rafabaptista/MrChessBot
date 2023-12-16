@@ -1,3 +1,7 @@
+**Version 2.5.1**
+---
+* \[Edit\] Update Readme file.
+
 **Version 2.5.0**
 ---
 * \[New\] English translation for daily tournaments message to all.
