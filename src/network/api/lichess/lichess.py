@@ -163,7 +163,9 @@ def create_arena_tournament(arena: Arena):
         response = requests.post(request_url, headers=headers, data=body, timeout=5)
         response.raise_for_status()
         print("Response Status Code: " + str(response.status_code))
-        arena_url = response.url
+        json_response = response.json()
+        print("Response jSon: " + str(json_response))
+        arena_url = arena_tournament_link + json_response["id"]
         print("Arena URL created: " + arena_url)
         if response.status_code == 200:
             return(arena_url)

@@ -1,4 +1,8 @@
-**Version 2.5.1**
+**Version 2.5.2**
+---
+* \[Fix\] Fix Arena tournament URL for message after tournament creation
+
+*Version 2.5.1**
 ---
 * \[New\] PR Template.
 * \[Edit\] Update Readme file.
