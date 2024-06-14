@@ -1,3 +1,7 @@
+**Version 2.5.3**
+---
+* \[Fix\] Fix Arena tournament duration - always display the duration in minutes
+
 **Version 2.5.2**
 ---
 * \[Fix\] Fix Arena tournament URL for message after tournament creation

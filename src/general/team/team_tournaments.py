@@ -5,6 +5,7 @@ from model.tournament import fix_hour
 from model.arena import Arena, map_arena_tournament
 from model.swiss import Swiss, map_swiss_tournament
 from model.tournament import Tournament
+from util.string_helper import get_arena_duration_info
 from util.constants import swiss_tournament_link, arena_tournament_link
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
@@ -20,7 +21,8 @@ def create_tournament_arena(arena: Arena):
     arena.starts_at = get_tournament_start_time(arena)
     arena_url = create_arena_tournament(arena)
     if arena_url != None:
-        return(f"[Arena] {arena.title} ({arena.clock}+{arena.increment}) - {duration_hours}h - {format(tournament_hour, '02d')}:{format(arena.minute, '02d')} (GMT-3):\n{arena_url}")
+        tournament_duration_info = get_arena_duration_info(float(duration_hours))
+        return(f"[Arena] {arena.title} ({arena.clock}+{arena.increment}) - {tournament_duration_info} - {format(tournament_hour, '02d')}:{format(arena.minute, '02d')} (GMT-3):\n{arena_url}")
     error_return = f"Não foi possível criar o torneio {arena.title} hoje. Desculpe.\n(Sorry, it was not possible to create the tournament {arena.title} today.)"
     return(error_return)
 
@@ -191,7 +193,8 @@ def get_tournament_list(list_name):
             type_tournament = "Arena"
             duration = tournament["duration"]
             duration_hours = str(round(duration/60, 2)).replace('.0', '')
-            response_message += f"• [{type_tournament}] {title} ({clock}+{increment}) - {duration_hours}h - {format(hour, '02d')}:{format(minute, '02d')} (GMT-3)"
+            tournament_duration_info = get_arena_duration_info(float(duration_hours))
+            response_message += f"• [{type_tournament}] {title} ({clock}+{increment}) - {tournament_duration_info} - {format(hour, '02d')}:{format(minute, '02d')} (GMT-3)"
         if (description != ""):
             response_message += f" - {description}"
         response_message += f"\n\n"

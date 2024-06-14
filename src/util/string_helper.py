@@ -19,3 +19,10 @@ def is_from_lichess_domain(text):
         return True
     else:
         return False
+    
+def get_arena_duration_info(hour):
+    print(hour)
+    duration_info = f""
+    time = int(hour * 60)
+    duration_info = f"{time}m"
+    return duration_info
