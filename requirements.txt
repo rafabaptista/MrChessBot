@@ -4,3 +4,4 @@ flask
 pytz
 pymongo
 python-dateutil
+dnspython
