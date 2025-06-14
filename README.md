@@ -53,6 +53,10 @@ Questions, issues and requests can be posted as an issue in this repository or s
     10. `bot_team_name`: Name of the Lichess team to be displayed in the messages
     11. `administrators_role`: Discord rule name, allowd to execute commands to create tournaments. i.e. -> `Administrators`
 
+## HEALTH CHECK
+* BOT Health check: /health 
+* D.B. Health check: /health_db
+
 ## PULL REQUESTS
 * All changes must be submitted as Pull Request.
 * All Pull Requests will be reviewed by `rafabaptista`.

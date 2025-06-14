@@ -1,3 +1,9 @@
+**Version 2.6.0**
+---
+* \[New\] Server HTTP for Health Check.
+* \[New\] BOT Health Check: `/health`.
+* \[New\] DB Health Check: `/health_db`.
+
 **Version 2.5.3**
 ---
 * \[Fix\] Fix Arena tournament duration - always display the duration in minutes

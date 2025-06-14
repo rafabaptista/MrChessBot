@@ -1,3 +1,4 @@
+import threading
 import discord
 from discord.ext import commands
 from config.environment_keys import token
@@ -8,6 +9,7 @@ from general.answer import *
 from util.constants import *
 from general.team.team_tournaments import *
 from config.environment_keys import *
+from network.server.server_http import start_http_server
 
 intents = discord.Intents.all()
 intents.members = True
@@ -20,7 +22,6 @@ bot = commands.Bot(command_prefix= '.', intents= intents, case_insensitive= True
 @bot.event
 async def on_ready(): 
   print(f"{bot.user} Logged in | Version: {__version__}")
-  print(check_database())
 
 @bot.command(name= "ajuda")
 async def help(ctx):
@@ -278,4 +279,7 @@ def get_embed_info(text):
 def get_embed_error(sintax): 
     return discord.Embed(title=":exclamation: \n\nErro ao executar comando", description=f"Tente novamente mais tarde ou verifique o comando digitado:\n{sintax}", color= discord.Color.red())
 
-bot.run(token)
+if __name__ == "__main__":
+    http_thread = threading.Thread(target=start_http_server, daemon=True)
+    http_thread.start()
+    bot.run(token)
