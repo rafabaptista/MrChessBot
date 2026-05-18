@@ -1,3 +1,7 @@
+**Version 2.7.1**
+---
+* \[Fix\] Don't delete message from webhook duo to permission issue.
+
 **Version 2.7.0**
 ---
 * \[New\] New Job for Tournament Creation automation.
