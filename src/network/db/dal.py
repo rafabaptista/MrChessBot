@@ -1,9 +1,9 @@
-from multiprocessing.heap import Arena
-from urllib import response
-from pymongo import MongoClient, errors
-from model.swiss import Swiss
-from model.arena import Arena
+from pymongo import MongoClient
+
 from config.environment_keys import db_client, db_name
+from model.arena import Arena
+from model.swiss import Swiss
+
 
 def check_db_connection():
     try:
@@ -13,10 +13,10 @@ def check_db_connection():
         query = { "is_alive": "1" }
         collection.find(query)
         client.close()
-        return(True)
+        return True
     except MongoClient.err as err:
         print(err)
-        return(False)
+        return False
 
 def insert_new_swiss_tournament(swiss: Swiss, pattern_name):
     new_data = {
@@ -31,16 +31,7 @@ def insert_new_swiss_tournament(swiss: Swiss, pattern_name):
         "rounds": swiss.rounds,  
         "interval": swiss.interval
     }
-    client = MongoClient(db_client)
-    database = client[db_name]
-    collection = database['torneios']
-    addition = collection.insert_one(new_data)
-    if addition.inserted_id != None:
-        response = True
-    else:
-        response = False
-    client.close()
-    return(response)
+    return insert_tournament_db_data(new_data)
 
 def insert_new_arena_tournament(arena: Arena, pattern_name):
     new_data = {
@@ -54,16 +45,19 @@ def insert_new_arena_tournament(arena: Arena, pattern_name):
         "minute": arena.minute, 
         "duration": arena.duration
     }
+    return insert_tournament_db_data(new_data)
+
+def insert_tournament_db_data(new_data):
     client = MongoClient(db_client)
     database = client[db_name]
     collection = database['torneios']
     addition = collection.insert_one(new_data)
-    if addition.inserted_id != None:
+    if addition.inserted_id is not None:
         response = True
     else:
         response = False
     client.close()
-    return(response)
+    return response
 
 def load_tournament_list(list_name):
     client = MongoClient(db_client)
@@ -72,7 +66,7 @@ def load_tournament_list(list_name):
     query = { "pattern_name": list_name }
     response = tuple(collection.find(query).sort("hour"))
     client.close()
-    return(response)
+    return response
 
 def delete_tournament(pattern_name, title):
     client = MongoClient(db_client)
@@ -83,14 +77,14 @@ def delete_tournament(pattern_name, title):
         "title": { "$eq" : title }
     }
     deleted_data = collection.delete_one(query)
-    if (deleted_data.deleted_count > 0):
+    if deleted_data.deleted_count > 0:
         response = True
     else:
         response = False
     client.close()
-    return(response)
+    return response
 
-def delete_all_tournaments_by_pattern_namet(pattern_name):
+def delete_all_tournaments_by_pattern_name(pattern_name):
     client = MongoClient(db_client)
     database = client[db_name]
     collection = database['torneios']
@@ -98,12 +92,12 @@ def delete_all_tournaments_by_pattern_namet(pattern_name):
         "pattern_name": { "$eq" : pattern_name }
     }
     deleted_data = collection.delete_many(query)
-    if (deleted_data.deleted_count > 0):
+    if deleted_data.deleted_count > 0:
         response = True
     else:
         response = False
     client.close()  
-    return(response)
+    return response
 
 def fix_hour_for_database(hour):
     fixed_hour = 0
@@ -116,4 +110,4 @@ def fix_hour_for_database(hour):
             fixed_hour = 26
         case other:
             fixed_hour = hour
-    return(fixed_hour)
+    return fixed_hour

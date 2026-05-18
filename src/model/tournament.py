@@ -21,4 +21,4 @@ def fix_hour(hour):
             fixed_hour = 2
         case other:
             fixed_hour = hour
-    return(fixed_hour)
+    return fixed_hour

@@ -1,5 +1,6 @@
-from model.tournament import Tournament
 from config.environment_keys import bot_team_id
+from model.tournament import Tournament
+
 
 class Swiss(Tournament):
     def __init__(self, title="", description="", clock=0, increment=0, hour=0, minute=0, rounds=0, interval=0):
@@ -17,4 +18,4 @@ def map_swiss_tournament(tournament):
     swiss.minute = tournament["minute"]
     swiss.rounds = tournament["rounds"]
     swiss.interval = tournament["interval"]
-    return(swiss)
+    return swiss

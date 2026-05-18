@@ -1,5 +1,7 @@
 from http.server import HTTPServer, SimpleHTTPRequestHandler
+
 from network.server.health.health_check import health_check, health_database_check
+
 
 class ServerHandler(SimpleHTTPRequestHandler):
     def do_GET(self):

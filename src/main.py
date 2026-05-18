@@ -1,30 +1,39 @@
 import threading
-import discord
+
 from discord.ext import commands
-from config.environment_keys import token
+
+from config.environment_keys import *
+from general.answer import *
+from general.team.team_helper import is_user_has_permission_to_create_tournaments, is_tournament_webhook
+from general.team.team_tournaments import *
+from network.server.server_http import start_http_server
+from util.constants import *
 from util.string_helper import is_from_lichess_domain
 from version import __version__
-from general.team.team_helper import is_user_has_permission_to_create_tournaments
-from general.answer import *
-from util.constants import *
-from general.team.team_tournaments import *
-from config.environment_keys import *
-from network.server.server_http import start_http_server
 
 intents = discord.Intents.all()
 intents.members = True
 intents.typing = True
 intents.presences = True
+intents.webhooks = True
 
-client = discord.Client(intents=discord.Intents.default())
-bot = commands.Bot(command_prefix= '.', intents= intents, case_insensitive= True)
+client = discord.Client(intents=intents)
+bot = commands.Bot(command_prefix= command_prefix, intents= intents, case_insensitive= True)
 
 @bot.event
 async def on_ready(): 
   print(f"{bot.user} Logged in | Version: {__version__}")
 
+@bot.event
+async def on_message(message):
+    if message.content.startswith(command_prefix):
+        print(f"Message received:\n{message}")
+        await message.delete()
+        msg = await bot.get_context(message)
+        await bot.invoke(msg)
+
 @bot.command(name= "ajuda")
-async def help(ctx):
+async def help_command(ctx):
     embed_info = get_embed_info(bot_helper)
     await ctx.send(embed= embed_info)
 
@@ -36,7 +45,7 @@ async def version(ctx):
 @bot.command(name= "gif")
 async def export_pgn(ctx, *, link_match = None):
     sintax = "Sintaxe: .gif <link da partida no Lichess>"
-    if link_match == None:
+    if link_match is None:
         embed_info = get_embed_info(sintax)
         await ctx.send(embed= embed_info)
         return
@@ -57,7 +66,7 @@ async def export_pgn(ctx, *, link_match = None):
 @bot.command(name= "pgn")
 async def export_pgn(ctx, *, link_match = None):
     sintax = "Sintaxe: .pgn <link da partida no Lichess>"
-    if link_match == None:
+    if link_match is None:
         embed_info = get_embed_info(sintax)
         await ctx.send(embed= embed_info)
         return
@@ -72,7 +81,7 @@ async def export_pgn(ctx, *, link_match = None):
 @bot.command(name= "confronto")
 async def cross_table(ctx, *, message_received = None):
     sintax = "Sintaxe:\n.confronto <jogador_1>, <jogador_2>"
-    if message_received == None:
+    if message_received is None:
         embed_info = get_embed_info(sintax)
         await ctx.send(embed= embed_info)
         return
@@ -90,7 +99,7 @@ async def cross_table(ctx, *, message_received = None):
 @bot.command(name= "perfil")
 async def profile(ctx, profile = None):
     sintax = "Sintaxe:\n.perfil <usuário Lichess>"
-    if profile == None:
+    if profile is None:
         embed_info = get_embed_info(sintax)
         await ctx.send(embed= embed_info)
         return
@@ -107,7 +116,7 @@ async def profile(ctx, profile = None):
 async def custom_tournament_swiss(ctx, *, params = None):
     sintax = "Sintaxe:\n.swiss <título>, <descrição>, <relógio>, <incremento>, <nº de rodadas>, <intervalo entre rodadas (em segundos)>, <hora (0..23)>, <minutos (0..59)>"
     try:
-        if params == None:
+        if params is None:
             embed_info = get_embed_info(sintax)
             await ctx.send(embed= embed_info)
             return    
@@ -122,7 +131,7 @@ async def custom_tournament_swiss(ctx, *, params = None):
 async def custom_tournament_arena(ctx, *, params = None):
     sintax = "Sintaxe:\n.arena <título>, <descrição>, <relógio>, <incremento>, <duração (em minutos)>, <hora (0..23)>, <minutos (0..59)>"
     try:
-        if params == None:
+        if params is None:
             embed_info = get_embed_info(sintax)
             await ctx.send(embed= embed_info)
             return    
@@ -135,10 +144,10 @@ async def custom_tournament_arena(ctx, *, params = None):
 
 @bot.command(name= "torneio")
 async def create_daily_tournament_list(ctx, *, params = None):
-    if is_user_has_permission_to_create_tournaments(ctx.author.roles):
+    if is_tournament_webhook(ctx.author.id) or is_user_has_permission_to_create_tournaments(ctx.author.roles):
         sintax = 'Sintaxe:\n.torneio <nome da lista (p1, p2 ... pn)>, <Recado extra (se houver)>'
         try:
-            if params == None:
+            if params is None:
                 embed_info = get_embed_info(sintax)
                 await ctx.send(embed= embed_info)
                 return    
@@ -159,7 +168,7 @@ async def add_tournament_swiss(ctx, *, params = None):
             '<tempo relógio (em minutos)>, <incremento (em segundos)>, <nº de rodadas>, <intervalo entre rodadas (em segundos)>, '\
             '<hora (0..23)>, <minutos (0..60)>'
         try:
-            if params == None:
+            if params is None:
                 embed_info = get_embed_info(sintax)
                 await ctx.send(embed= embed_info)
                 return    
@@ -178,7 +187,7 @@ async def add_tournament_arena(ctx, *, params = None):
         sintax = 'Sintaxe:\n.adicionar-torneio-arena <nome da lista (p1, p2 ... pn)>, <título>, <descrição>, <tempo relógio (em minutos)>, '\
             '<incremento (em segundos)>, <duração (em minutos)>, <hora (0..23)>, <minutos (0..59)>'
         try:
-            if params == None:
+            if params is None:
                 embed_info = get_embed_info(sintax)
                 await ctx.send(embed= embed_info)
                 return    
@@ -195,7 +204,7 @@ async def add_tournament_arena(ctx, *, params = None):
 async def list_tournament(ctx, *, list_name = None):
     sintax = "Sintaxe:\n.listar-torneio <nome da lista (p1, p2 ... pn)>"
     try:
-        if list_name == None:
+        if list_name is None:
             embed_info = get_embed_info(sintax)
             await ctx.send(embed= embed_info)
             return    
@@ -210,7 +219,7 @@ async def list_tournament(ctx, *, list_name = None):
 async def remove_tournament(ctx, *, params = None):
     sintax = "Sintaxe:\n.remover-torneio <nome da lista (p1, p2 ... pn)>, <título do torneio (exatamente igual ao torneio inserido)>"
     try:
-        if params == None:
+        if params is None:
             embed_info = get_embed_info(sintax)
             await ctx.send(embed= embed_info)
             return    
@@ -225,7 +234,7 @@ async def remove_tournament(ctx, *, params = None):
 async def remove_all_tournaments_by_list(ctx, *, list_name = None):
     sintax = "Sintaxe:\n.remover-lista-torneio <nome da lista (p1, p2 ... pn)>"
     try:
-        if list_name == None:
+        if list_name is None:
             embed_info = get_embed_info(sintax)
             await ctx.send(embed= embed_info)
             return    
@@ -243,7 +252,7 @@ async def challenge_bot(ctx, *, params=None):
 
 async def send_bot_simple_text_answer(ctx, text):
     length = len(text)
-    if length < maximum_lenght_characters:
+    if length < maximum_length_characters:
       await ctx.send(text)
     else:
       file = open(large_file_name,"w+")
@@ -263,7 +272,7 @@ async def send_message_tournaments_channel(text):
     channel_id = int(team_tournaments_channel_id)
     channel = bot.get_channel(channel_id)
     length = len(text)
-    if length < maximum_lenght_characters:
+    if length < maximum_length_characters:
       await channel.send(text)
     else:
       file = open(large_file_name,"w+")
