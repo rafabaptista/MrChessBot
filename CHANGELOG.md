@@ -1,3 +1,10 @@
+**Version 2.7.0**
+---
+* \[New\] New Job for Tournament Creation automation.
+* \[Edit\] Remove unnecessary imports.
+* \[Edit\] Improve imports ordering.
+* \[Fix\] Fixed some warnings.
+
 **Version 2.6.0**
 ---
 * \[New\] Server HTTP for Health Check.
@@ -31,7 +38,7 @@
 * \[New\] Support Team Name and Team ID by config vars
 * \[Fix\] Fix tournament creation in the last days of the month
 * \[Remove\] Remove WhatsApp send message support (cost matters)
-* \[Remove\] Remove unnesed code and classes
+* \[Remove\] Remove unused code and classes
 
 **Version 2.3.1**
 ---
@@ -40,7 +47,7 @@
 
 **Version 2.3.0**
 ---
-* \[New\] Challenge MrChessTheBot Lichess BOT -> .bot
+* \[New\] Challenge MrChessTheBot Lichess BOT → .bot
 
 **Version 2.2.0**
 ---
@@ -54,7 +61,7 @@
 **Version 2.1.2**
 ---
 * \[Update\] Change message for failure tournament creation
-* \[Fix\] Remove special characters that doesn`t work in Lichess Messages
+* \[Fix\] Remove special characters that doesn't work in Lichess Messages
 
 **Version 2.1.1**
 ---
@@ -88,6 +95,6 @@
 
 **Version 1.3.2**
 ---
-* \[New\] Tournament Creation Support -> .swiss / .arena
+* \[New\] Tournament Creation Support → .swiss / .arena
 * `.swiss <title>, <description (can be a .jpg image url)>, <clock(in minutes)>, <increment(in seconds)>, <rounds>, <interval(in seconds)>, <hour(default 0-23 hours)>, <minutes(default 0-60 minutes)>` → create Swiss tournament based
 * `.arena <title>, <description(can be a .jpg image url)>, <clock(in minutes)>, <increment(in seconds)>, <duration (in minutes)>, <hour(default 0-23 hours)>, <minutes(default 0-60 minutes)>` → create Swiss tournament

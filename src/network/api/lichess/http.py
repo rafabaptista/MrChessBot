@@ -1,6 +1,6 @@
-from util.constants import liches_base_url
-from config.environment_keys import lichess_access_token
 from config.environment_keys import bot_team_id
+from config.environment_keys import lichess_access_token
+from util.constants import liches_base_url
 
 http_get_game_pgn = f"{liches_base_url}/game/export/"
 http_export_game_gif = f"{liches_base_url}/game/export/gif/"

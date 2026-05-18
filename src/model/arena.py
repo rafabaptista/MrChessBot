@@ -1,5 +1,6 @@
-from model.tournament import Tournament
 from config.environment_keys import bot_team_id
+from model.tournament import Tournament
+
 
 class Arena(Tournament):
     def __init__(self, title="", description="", clock=0, increment=0, hour=0, minute=0, duration=0):
@@ -15,4 +16,4 @@ def map_arena_tournament(tournament):
     arena.hour = tournament["hour"]
     arena.minute = tournament["minute"]
     arena.duration = tournament["duration"]
-    return(arena)
+    return arena
