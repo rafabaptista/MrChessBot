@@ -28,7 +28,6 @@ async def on_ready():
 async def on_message(message):
     if message.content.startswith(command_prefix):
         print(f"Message received:\n{message}")
-        await message.delete()
         msg = await bot.get_context(message)
         await bot.invoke(msg)
 
