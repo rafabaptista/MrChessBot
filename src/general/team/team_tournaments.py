@@ -1,16 +1,18 @@
+from datetime import datetime
+
+import discord
+from dateutil.relativedelta import relativedelta
+
+from config.environment_keys import bot_team_id, bot_team_name
+from model.arena import map_arena_tournament
+from model.swiss import map_swiss_tournament
+from model.tournament import Tournament
+from model.tournament import fix_hour
 from network.api.lichess.lichess import create_swiss_tournament, create_arena_tournament
 from network.api.lichess.lichess import send_message_to_team
-from config.environment_keys import bot_team_id, bot_team_name
-from model.tournament import fix_hour
-from model.arena import Arena, map_arena_tournament
-from model.swiss import Swiss, map_swiss_tournament
-from model.tournament import Tournament
-from util.string_helper import get_arena_duration_info
-from util.constants import swiss_tournament_link, arena_tournament_link
-from datetime import datetime
-from dateutil.relativedelta import relativedelta
 from network.db.dal import *
-import discord
+from util.constants import swiss_tournament_link
+from util.string_helper import get_arena_duration_info
 
 time_interval_sleep = 1
 
@@ -20,11 +22,11 @@ def create_tournament_arena(arena: Arena):
     tournament_hour = fix_hour(arena.hour)
     arena.starts_at = get_tournament_start_time(arena)
     arena_url = create_arena_tournament(arena)
-    if arena_url != None:
+    if arena_url is not None:
         tournament_duration_info = get_arena_duration_info(float(duration_hours))
-        return(f"[Arena] {arena.title} ({arena.clock}+{arena.increment}) - {tournament_duration_info} - {format(tournament_hour, '02d')}:{format(arena.minute, '02d')} (GMT-3):\n{arena_url}")
+        return f"[Arena] {arena.title} ({arena.clock}+{arena.increment}) - {tournament_duration_info} - {format(tournament_hour, '02d')}:{format(arena.minute, '02d')} (GMT-3):\n{arena_url}"
     error_return = f"Não foi possível criar o torneio {arena.title} hoje. Desculpe.\n(Sorry, it was not possible to create the tournament {arena.title} today.)"
-    return(error_return)
+    return error_return
 
 def create_arena_tournament_with_params(tournament_params):
     params = tournament_params.split(',')
@@ -46,8 +48,8 @@ def create_arena_tournament_with_params(tournament_params):
         print(f"hour: {arena.hour}")
         arena.minute = int(params[6].strip())
         print(f"minute: {arena.minute}")
-        return(create_tournament_arena(arena))
-    return("Algo não está certo.\nCertifique-se de que está mandando o comando exatamente assim:\n\n.arena _Nome do Torneio_, _Descrição do Torneio (pode ser o link de uma imagem .jpg)_, _Tempo do Relógio (em segundos)_, _Tempo de incremento por lance (em segundos)_, _Duração do Torneio (em minutos)_, _Hora de início do Torneio (em minutos)_, _Minutos de início do Torneio (em minutos)_")
+        return create_tournament_arena(arena)
+    return "Algo não está certo.\nCertifique-se de que está mandando o comando exatamente assim:\n\n.arena _Nome do Torneio_, _Descrição do Torneio (pode ser o link de uma imagem .jpg)_, _Tempo do Relógio (em segundos)_, _Tempo de incremento por lance (em segundos)_, _Duração do Torneio (em minutos)_, _Hora de início do Torneio (em minutos)_, _Minutos de início do Torneio (em minutos)_"
 
 def add_arena_tournament_to_list_with_params(tournament_params):
     params = tournament_params.split(',')
@@ -71,11 +73,11 @@ def add_arena_tournament_to_list_with_params(tournament_params):
         arena.minute = int(params[7].strip())
         print(f"minute: {arena.minute}")
         addition = insert_new_arena_tournament(arena, list_name)
-        if (addition):
+        if addition:
             duration_hours = str(round(arena.duration/60, 2)).replace('.0', '')
             response_message = f"\nO torneio foi adicionado com sucesso à lista ***{list_name}*** de Torneios Diários.\n\n"
             response_message += f"• [Arena] {arena.title} ({arena.clock}+{arena.increment}) - {duration_hours}h - {format(arena.hour, '02d')}:{format(arena.minute, '02d')}(GMT-3)"
-            if (arena.description != ""):
+            if arena.description != "":
                 response_message += f" - {arena.description}"
             return discord.Embed(title=":white_check_mark:", description=response_message, color= discord.Color.green())
     response_error_message = f"\nNão foi possível adicionar o torneio ***[Arena] {arena.title}*** à lista ***{list_name}*** de Torneios Diários. Confira os parâmetros e tente novamente mais tarde."
@@ -88,21 +90,21 @@ def create_tournament_swiss(swiss: Swiss):
     tournament_hour = fix_hour(swiss.hour)
     swiss.starts_at = get_tournament_start_time(swiss)
     response = create_swiss_tournament(swiss)
-    if response != None:
-        if (response["status"] == "created"):
+    if response is not None:
+        if response["status"] == "created":
             tournament_id = response["id"]
-            return(f"[Suiço (Swiss)] {swiss.title} ({clock_time}+{swiss.increment}) - {swiss.rounds} RD - {format(tournament_hour, '02d')}:{format(swiss.minute, '02d')} (GMT-3):\n{swiss_tournament_link}{tournament_id}")
-    return(f"Não foi possível criar o torneio {swiss.title} hoje. Desculpe.\n(Sorry. It was not possible to create the tournament {swiss.title} today.)")
+            return f"[Suiço (Swiss)] {swiss.title} ({clock_time}+{swiss.increment}) - {swiss.rounds} RD - {format(tournament_hour, '02d')}:{format(swiss.minute, '02d')} (GMT-3):\n{swiss_tournament_link}{tournament_id}"
+    return f"Não foi possível criar o torneio {swiss.title} hoje. Desculpe.\n(Sorry. It was not possible to create the tournament {swiss.title} today.)"
 
 def get_tournament_start_time(tournament: Tournament):
     local_dt = datetime.now()
     tournament_hour = fix_hour(tournament.hour)
-    if (tournament_hour >= 0 and tournament_hour <= 2):
-        if (local_dt.month == 12 and local_dt.day == 31): #last day of the year
+    if 0 <= tournament_hour <= 2:
+        if local_dt.month == 12 and local_dt.day == 31: #last day of the year
             new_date = datetime(local_dt.year + 1, 1, 1, tournament_hour,tournament. minute, 0, 0) #Jannuary 1 from the next year
         else:
             last_date_of_month = local_dt + relativedelta(day=31)
-            if (local_dt.day == last_date_of_month.day): #las day of the month
+            if local_dt.day == last_date_of_month.day: #las day of the month
                 new_date = datetime(local_dt.year, local_dt.month + 1, 1, tournament_hour,tournament. minute, 0, 0) #Brazil's zone [Sao Paulo]
             else:
                 new_date = datetime(local_dt.year, local_dt.month, local_dt.day + 1, tournament_hour,tournament. minute, 0, 0) #Brazil's zone [Sao Paulo]
@@ -133,8 +135,8 @@ def create_swis_tournament_with_params(tournament_params):
         print(f"hour: {swiss.hour}")
         swiss.minute = int(params[7].strip())
         print(f"minute: {swiss.minute}")
-        return(create_tournament_swiss(swiss))
-    return("Algo não está certo.\nCertifique-se de que está mandando o comando exatamente assim:\n\n.swiss _Nome do Torneio_, _Descrição do Torneio (pode ser o link de uma imagem .jpg)_, _Tempo do Relógio (em segundos)_, _Tempo de incremento por lance (em segundos)_, _Número de rodadas_, _Tempo de intervalo entre rodadas (em segundos)_, _Hora de início do Torneio (em minutos)_, _Minutos de início do Torneio (em minutos)_")
+        return create_tournament_swiss(swiss)
+    return "Algo não está certo.\nCertifique-se de que está mandando o comando exatamente assim:\n\n.swiss _Nome do Torneio_, _Descrição do Torneio (pode ser o link de uma imagem .jpg)_, _Tempo do Relógio (em segundos)_, _Tempo de incremento por lance (em segundos)_, _Número de rodadas_, _Tempo de intervalo entre rodadas (em segundos)_, _Hora de início do Torneio (em minutos)_, _Minutos de início do Torneio (em minutos)_"
 
 def add_swis_tournament_to_list_with_params(tournament_params):
     params = tournament_params.split(',')
@@ -160,10 +162,10 @@ def add_swis_tournament_to_list_with_params(tournament_params):
         swiss.minute = int(params[8].strip())
         print(f"minute: {swiss.minute}")
         addition = insert_new_swiss_tournament(swiss, list_name)
-        if (addition):
+        if addition:
             response_message = f"\nO torneio foi adicionado com sucesso à lista ***{list_name}*** de Torneios Diários.\n\n"
             response_message += f"• [Suiço/Swiss] {swiss.title} ({swiss.clock}+{swiss.increment}) - {swiss.rounds} RD | {swiss.interval}s - {format(swiss.hour, '02d')}:{format(swiss.minute, '02d')} (GMT-3)"
-            if (swiss.description != ""):
+            if swiss.description != "":
                 response_message += f" - {swiss.description}"
             return discord.Embed(title=":white_check_mark:", description=response_message, color= discord.Color.green())
     response_error_message = f"\nNão foi possível adicionar o torneio ***[Suiço] {swiss.title}*** à lista ***{list_name}*** de Torneios Diários. Confira os parâmetros e tente novamente mais tarde."
@@ -171,7 +173,7 @@ def add_swis_tournament_to_list_with_params(tournament_params):
 
 def get_tournament_list(list_name):
     response = load_tournament_list(list_name)
-    if (response == None):
+    if response is None:
         response_error_message = f"Ocorreu um erro ao listar os torneios da lista ***{list_name}***. Tente novamente mais tarde."
         return discord.Embed(title=":exclamation: Falha! :exclamation:", description=response_error_message, color= discord.Color.red())
     response_message = f"\n"
@@ -184,7 +186,7 @@ def get_tournament_list(list_name):
         increment = tournament["increment"]
         hour = fix_hour(tournament["hour"])
         minute = tournament["minute"]
-        if (type == "S"):
+        if type == "S":
             type_tournament = "Suiço"
             rounds = tournament["rounds"]
             interval = tournament["interval"]
@@ -195,13 +197,13 @@ def get_tournament_list(list_name):
             duration_hours = str(round(duration/60, 2)).replace('.0', '')
             tournament_duration_info = get_arena_duration_info(float(duration_hours))
             response_message += f"• [{type_tournament}] {title} ({clock}+{increment}) - {tournament_duration_info} - {format(hour, '02d')}:{format(minute, '02d')} (GMT-3)"
-        if (description != ""):
+        if description != "":
             response_message += f" - {description}"
         response_message += f"\n\n"
     return discord.Embed(title=f"Torneios Diários - {list_name}", description=response_message, color= discord.Color.green())
 
 def create_tournament_list_from_db(tournament_params):
-    if ("," in tournament_params):
+    if "," in tournament_params:
         params = tournament_params.split(",")
         list_name = params[0].strip()
         extra_message = tournament_params.replace(f"{list_name}", "").replace(",", "", 1)
@@ -209,26 +211,26 @@ def create_tournament_list_from_db(tournament_params):
         list_name = tournament_params.strip()
         extra_message = None
     response = load_tournament_list(list_name)
-    if (response == None):
-        return(f"Ocorreu um erro ao criar os torneios da lista ***{list_name}***. Tente novamente mais tarde.")
+    if response is None:
+        return f"Ocorreu um erro ao criar os torneios da lista ***{list_name}***. Tente novamente mais tarde."
     print(response)
     local_dt = datetime.now()
     formatted_date = f"{local_dt.day}/{local_dt.month}/{local_dt.year}"
     message_to_send = f"Bom dia (Good morning), {bot_team_name} ♟️\n\nOs torneios de hoje ({formatted_date}) são:\n(The tournaments for today are:)\n\n"
     for tournament in response:
-        if (tournament["type"] == "S"):
+        if tournament["type"] == "S":
             swiss = map_swiss_tournament(tournament)
             message_to_send += f"{create_tournament_swiss(swiss)}\n\n"
         else:
             arena = map_arena_tournament(tournament)
             message_to_send += f"{create_tournament_arena(arena)}\n\n"
-    if (extra_message != None):
+    if extra_message is not None:
         message_to_send += f"{extra_message.strip()}\n\n"
     message_to_send += "Obrigado e até a próxima! (Thank you and see you soon!)   o/ \n\n🏁🏁🏁♟️🐎🐎🐎♟️🏁🏁🏁"
     response_message = send_message_to_team(message_to_send)
     if response_message == "OK":
-        return(message_to_send)
-    return(f"Ocorreu um erro ao enviar mensagem para os membros da Equipe no Lichess. Contudo, os torneios foram criados.\n\n{message_to_send}")
+        return message_to_send
+    return f"Ocorreu um erro ao enviar mensagem para os membros da Equipe no Lichess. Contudo, os torneios foram criados.\n\n{message_to_send}"
 
 def remove_tournament_by_title(tournament_params, sintax):
     params = tournament_params.split(',')
@@ -238,7 +240,7 @@ def remove_tournament_by_title(tournament_params, sintax):
         list_name = params[0].strip()
         title_tournament = params[1].lstrip()
         deletion = delete_tournament(list_name, title_tournament)
-        if (deletion):
+        if deletion:
             response_message = f"\nO torneio foi removido com sucesso da lista ***{list_name}*** de Torneios Diários.\n\n"
             return discord.Embed(title=":white_check_mark:", description=response_message, color= discord.Color.green())
     response_error_message = f"\nNão foi possível remover o torneio. Confira os parâmetros e tente novamente mais tarde.\n\n{sintax}"
@@ -246,8 +248,8 @@ def remove_tournament_by_title(tournament_params, sintax):
 
 def remove_tournament_by_list_name(list_name, sintax):
     list_name = list_name.strip()
-    deletion = delete_all_tournaments_by_pattern_namet(list_name)
-    if (deletion):
+    deletion = delete_all_tournaments_by_pattern_name(list_name)
+    if deletion:
         response_message = f"\nTodos os torneios da lista ***{list_name}*** de Torneios Diários foram removidos com sucesso.\n\n"
         return discord.Embed(title=":white_check_mark:", description=response_message, color= discord.Color.green())
     response_error_message = f"\nNão foi possível remover os torneios. Confira os parâmetros e tente novamente mais tarde.\n\n{sintax}"
@@ -255,7 +257,7 @@ def remove_tournament_by_list_name(list_name, sintax):
 
 def check_database():
     response = check_db_connection()
-    if (response == True):
+    if response:
         response_message = "====> D.B. Check: > SUCCESS < ..."
     else:
         response_message = "#### Error to connect to D.B."

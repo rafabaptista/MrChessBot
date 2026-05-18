@@ -21,6 +21,9 @@ text_rapid_matches = "Partidas Rápidas"
 text_blitz_matches = "Partidas Blitz"
 text_bullet_matches = "Partidas Bullet"
 text_correspondence_matches = "Partidas por Correspondência (sem relógio)"
+text_automate_webhook_not_work = "Não foi possível executar Webhook"
+command_tournament_create = ".torneio"
+command_prefix = '.'
 
 bot_helper = 'Me chamou??\n\nPara falar comigo você precisa me enviar um comando.\n\nVeja a lista de comandos que tenho:\n'\
     '• .ajuda -> Repetir esta mensagem\n'\
