@@ -1,3 +1,7 @@
+**Version 2.7.2**
+---
+* \[Fix\] Fix jobs to run independent of the project
+
 **Version 2.7.1**
 ---
 * \[Fix\] Don't delete message from webhook duo to permission issue.
